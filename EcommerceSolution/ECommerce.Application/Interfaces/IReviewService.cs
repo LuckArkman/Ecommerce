@@ -7,6 +7,6 @@ namespace ECommerce.Application.Interfaces
     {
         Task<ReviewDto> AddReviewAsync(string userId, CreateReviewRequest request);
         Task<IEnumerable<ReviewDto>> GetReviewsByProductIdAsync(int productId);
-        Task<IEnumerable<ReviewDto>> GetAllReviewsAsync();
+        Task<IEnumerable<ReviewDto>> GetAllReviewsAsync(); // Para o Admin
     }
 }

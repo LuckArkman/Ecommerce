@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ebqDCLlSjMU=",
+  "dgSpecHash": "8Yr/AR7FIz8=",
   "success": true,
   "projectFilePath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj",
   "expectedPackageFiles": [
@@ -28,6 +28,7 @@
     "/home/mplopes/.nuget/packages/microsoft.entityframeworkcore.relational/8.0.0/microsoft.entityframeworkcore.relational.8.0.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.extensions.caching.abstractions/8.0.0/microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.extensions.caching.memory/8.0.0/microsoft.extensions.caching.memory.8.0.0.nupkg.sha512",
+    "/home/mplopes/.nuget/packages/microsoft.extensions.caching.stackexchangeredis/8.0.0/microsoft.extensions.caching.stackexchangeredis.8.0.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.2/microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
@@ -47,9 +48,12 @@
     "/home/mplopes/.nuget/packages/microsoft.win32.registry/5.0.0/microsoft.win32.registry.5.0.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/mongodb.bson/3.4.2/mongodb.bson.3.4.2.nupkg.sha512",
     "/home/mplopes/.nuget/packages/mongodb.driver/3.4.2/mongodb.driver.3.4.2.nupkg.sha512",
+    "/home/mplopes/.nuget/packages/pipelines.sockets.unofficial/2.2.8/pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
     "/home/mplopes/.nuget/packages/sharpcompress/0.30.1/sharpcompress.0.30.1.nupkg.sha512",
     "/home/mplopes/.nuget/packages/snappier/1.0.0/snappier.1.0.0.nupkg.sha512",
+    "/home/mplopes/.nuget/packages/stackexchange.redis/2.6.122/stackexchange.redis.2.6.122.nupkg.sha512",
     "/home/mplopes/.nuget/packages/system.buffers/4.6.0/system.buffers.4.6.0.nupkg.sha512",
+    "/home/mplopes/.nuget/packages/system.io.pipelines/5.0.1/system.io.pipelines.5.0.1.nupkg.sha512",
     "/home/mplopes/.nuget/packages/system.memory/4.5.5/system.memory.4.5.5.nupkg.sha512",
     "/home/mplopes/.nuget/packages/system.runtime.compilerservices.unsafe/5.0.0/system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/system.security.accesscontrol/5.0.0/system.security.accesscontrol.5.0.0.nupkg.sha512",
