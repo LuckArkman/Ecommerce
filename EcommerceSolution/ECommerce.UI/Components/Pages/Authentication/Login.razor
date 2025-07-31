@@ -1,0 +1,56 @@
+@page "/Authentication/login"
+@using ECommerce.Client.Auth
+@using ECommerce.Models.DTOs.User
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+@rendermode InteractiveWebAssembly
+
+<h3>Login</h3>
+
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin" FormName="LoginForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <InputText id="email" class="form-control" @bind-Value="loginModel.Email" />
+        <ValidationMessage For="@(() => loginModel.Email)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Senha:</label>
+        <InputText id="password" type="password" class="form-control" @bind-Value="loginModel.Password" />
+        <ValidationMessage For="@(() => loginModel.Password)" />
+    </div>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <button type="submit" class="btn btn-primary">Login</button>
+    <p class="mt-3">Não tem uma conta? <a href="/authentication/register">Registre-se aqui</a></p>
+</EditForm>
+
+@code {
+    private LoginRequest loginModel = new();
+    private string errorMessage = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        // Em um cenário real, você chamaria sua API de autenticação aqui.
+        // Ex: var response = await _httpClient.PostAsJsonAsync("api/auth/login", loginModel);
+        //    if (response.IsSuccessStatusCode) { ... }
+        // Por enquanto, apenas simulamos:
+
+        if (loginModel.Email == "test@example.com" && loginModel.Password == "Password123!")
+        {
+            AuthStateProvider.MarkUserAsAuthenticated(loginModel.Email);
+            NavigationManager.NavigateTo("/"); // Redireciona para a página inicial
+        }
+        else
+        {
+            errorMessage = "Credenciais inválidas.";
+        }
+    }
+}

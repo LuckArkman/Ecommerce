@@ -12,6 +12,8 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.16"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.13.0" />
+        <PackageReference Include="Npgsql" Version="9.0.3" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.0" />
     </ItemGroup>
@@ -24,10 +26,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ECommerce.Application\ECommerce.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Services\" />
+      <ProjectReference Include="..\ECommerce.UI\ECommerce.UI.csproj" />
     </ItemGroup>
 
 </Project>

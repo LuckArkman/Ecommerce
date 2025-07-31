@@ -10,7 +10,7 @@ namespace ECommerce.Infrastructure.Data
     {
         public static async Task SeedRolesAndAdminUserAsync(IServiceProvider serviceProvider)
         {
-            using var scope = serviceProvider.CreateSope();
+            using var scope = serviceProvider.CreateScope();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
