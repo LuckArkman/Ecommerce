@@ -1,8 +1,4 @@
 using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ECommerce.Models.DTOs.Cart;
 using ECommerce.Models.DTOs.Product;
 
