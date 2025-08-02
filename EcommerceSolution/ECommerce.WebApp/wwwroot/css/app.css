@@ -1,0 +1,379 @@
+/* ECommerce.WebApp/wwwroot/css/app.css */
+
+/* Cores e Fontes Base */
+:root {
+    --primary-color: #6a4f41; /* Marrom escuro para logo, títulos e botões principais */
+    --secondary-color: #A3B18A; /* Um verde/cinza terroso para detalhes e hover */
+    --background-light: #F8FFF2; /* Sua nova cor principal de fundo */
+    --text-dark: #333; /* Texto padrão */
+    --text-light: #fff; /* Texto em fundos escuros */
+    --accent-color: #DDA15E; /* Um tom mais quente para pequenos destaques */
+
+    --font-family-sans-serif: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-family-serif: 'Playfair Display', serif; /* Para títulos estilosos */
+}
+
+body {
+    font-family: var(--font-family-sans-serif);
+    color: var(--text-dark);
+    background-color: var(--background-light); /* Aplica a nova cor de fundo principal */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+/* Header, Navbar e Top Row */
+header {
+    background-color: var(--text-light); /* Fundo branco para o cabeçalho/navbar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
+    position: sticky;
+    top: 0;
+    z-index: 1020; /* Garante que o header fique sobre outros elementos */
+}
+
+.top-row {
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9em;
+    background-color: var(--text-light) !important;
+}
+
+.top-row a {
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+
+.top-row a:hover {
+    color: var(--primary-color);
+}
+
+.navbar-brand img {
+    height: 30px;
+}
+
+.navbar-nav .nav-link {
+    font-weight: bold;
+    color: var(--text-dark) !important;
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+.btn-outline-success {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+/* Jumbotron Custom (Banner Principal) */
+.jumbotron-custom {
+    padding: 8rem 0;
+    background-size: cover; /* <--- ESSENCIAL */
+    background-position: center; /* <--- ESSENCIAL */
+    width: 100vw;
+    height: 500px; /* <--- ESSENCIAL (ou outra altura) */
+    display: flex; /* Garante que o conteúdo interno não colapse o div */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Verifique também os estilos para .marketing-banner */
+.marketing-banner {
+    background-size: cover;
+    background-position: center;
+    height: 350px; /* Ou outra altura */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light); /* Para o texto sobreposto */
+}
+/* O overlay dentro de marketing-banner também pode influenciar a visibilidade */
+.marketing-banner .overlay {
+    background-color: rgba(0,0,0,0.3); /* Um fundo semi-transparente para o texto */
+    border-radius: 8px;
+    padding: 1rem; /* Ou mais, para espaçamento */
+}
+
+.jumbotron-custom .display-4 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    color: var(--primary-color) !important;
+}
+
+.jumbotron-custom .lead {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    color: var(--primary-color) !important;
+}
+
+.btn-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #5c4439; 
+    border-color: #5c4439;
+    color: var(--text-light);
+}
+
+/* Seção de Features/Ícones (abaixo do banner) */
+.features-icons-section {
+    background-color: var(--text-light); /* Fundo branco */
+    padding: 3rem 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Sombra para destacar a seção */
+    margin-bottom: 3rem; /* Espaçamento com a próxima seção */
+}
+.features-icons-section .col-md-3 {
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.features-icons-section .bi {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+
+/* Seção "Navegue pelas Categorias" */
+.category-circle {
+    background-color: var(--text-light);
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.category-circle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.category-circle img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+/* Cards de Produtos (Lançamentos e Mais Vendidos) */
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--text-light);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+    border-radius: 8px 8px 0 0;
+    object-fit: cover;
+}
+
+.card-body h5 {
+    color: var(--primary-color);
+}
+
+.card-text .text-decoration-line-through {
+    color: #888;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+
+/* Seções de Marketing (Ex: Veja Mais Detalhes) */
+.marketing-banner {
+    background-color: var(--secondary-color); /* Pode ser background-light ou outra cor */
+    color: var(--text-dark);
+    padding: 3rem 0;
+    margin-top: 3rem;
+}
+.marketing-banner .btn {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.navbar {
+    background-color: #0a3622;
+    padding-top: 25px;   
+    padding-bottom: 25px; 
+    display: flex;
+    align-items: center;
+}
+
+/* Seção de Newsletter */
+.newsletter-section {
+    background-color: var(--background-light); /* Usa a cor de fundo principal */
+    padding: 5rem 0;
+}
+.newsletter-section .btn-dark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+}
+.newsletter-section .btn-dark:hover {
+    background-color: darken(var(--primary-color), 10%);
+}
+
+/* Rodapé */
+.footer {
+    background-color: var(--text-light); /* Fundo branco para o rodapé */
+    border-top: 1px solid #e9ecef;
+}
+
+.footer h5 {
+    color: var(--primary-color);
+}
+
+.footer .list-unstyled a {
+    color: var(--text-dark);
+}
+
+.footer .list-unstyled i {
+    color: var(--primary-color);
+}
+
+/* Cookie Consent Bar */
+.cookie-consent-bar {
+    background-color: var(--text-light) !important;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2000;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.jumbotron-custom-container {
+    position: relative;
+    margin-left: calc(50% - 50vw); /* Ajusta a margem para remover o espaçamento lateral padrão */
+    margin-right: calc(50% - 50vw); /* Continuação do ajuste de margem */
+    height: 500px;
+    overflow: hidden;
+}
+
+.jumbotron-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    max-width: unset;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+
+.jumbotron-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+
+.jumbotron-content .display-4,
+.jumbotron-content .lead {
+    color: var(--primary-color) !important;
+}
+/* ... (btn-custom inalterado) ... */
+
+
+/* Seção de Banners de Marketing (Ex: "Home Office Perfeito") */
+/* Container para a imagem e o conteúdo */
+.marketing-banner-container {
+    position: relative;
+    width: 100%;
+    height: 350px; /* Altura fixa do banner de marketing */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o conteúdo horizontalmente também */
+    border-radius: 8px; /* Mantém o border-radius */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Sombra sutil */
+}
+
+.marketing-banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    border-radius: 8px; /* Garante que a imagem também tenha o border-radius */
+}
+
+.marketing-banner-container .overlay {
+    position: relative; /* Conteúdo sobreposto */
+    z-index: 2;
+    background-color: rgba(0,0,0,0.3); /* Fundo semi-transparente para o texto */
+    border-radius: 8px;
+    padding: 1.5rem; /* Aumenta o padding para espaçamento */
+    text-align: center; /* Centraliza o texto */
+    color: var(--text-light); /* Garante que o texto seja claro */
+}
+.marketing-banner-container .overlay h4,
+.marketing-banner-container .overlay p {
+    color: var(--text-light); /* Garante que o texto dentro do overlay seja claro */
+}
+.marketing-banner-container .overlay .btn {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+}
+.marketing-banner-container .overlay .btn:hover {
+    background-color: darken(var(--primary-color), 10%);
+    border-color: darken(var(--primary-color), 10%);
+}

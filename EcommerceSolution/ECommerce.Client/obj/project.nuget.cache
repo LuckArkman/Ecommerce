@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "8J16POxB4v8=",
+  "success": true,
+  "projectFilePath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj",
+  "expectedPackageFiles": [
+    "/home/mplopes/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.16/microsoft.aspnetcore.app.ref.8.0.16.nupkg.sha512"
+  ],
+  "logs": []
+}
