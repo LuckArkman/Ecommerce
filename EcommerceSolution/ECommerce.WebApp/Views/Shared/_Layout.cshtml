@@ -38,7 +38,9 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
             </div>
             <div style="padding-left: 25px;" class="ms-6 text-center">
-                <a class="text-reset" href="#">
+                <a class="text-reset" href="#"
+                   data-bs-toggle="modal"
+                   data-bs-target="#registerModal">
                     <div class="lh-1">
                         <div class="mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em"
@@ -66,6 +68,50 @@
     </main>
 </div>
 
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Criar Nova Conta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    @Html.AntiForgeryToken() 
+
+                    <div class="mb-3">
+                        <label for="registerEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="registerEmail" name="Email" required>
+                        <div class="invalid-feedback">
+                            Por favor, insira um email válido.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="registerPassword" name="Password" required>
+                        <div class="invalid-feedback">
+                            A senha deve ter pelo menos 6 caracteres.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerConfirmPassword" class="form-label">Confirmar Senha</label>
+                        <input type="password" class="form-control" id="registerConfirmPassword" name="ConfirmPassword" required>
+                        <div class="invalid-feedback">
+                            As senhas não coincidem.
+                        </div>
+                    </div>
+                    <div id="registerMessage" class="alert d-none" role="alert"></div>
+                    <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <p class="mb-0">Já tem uma conta?</p>
+                <button type="button" class="btn btn-link" id="redirectToLoginBtn">Faça login aqui</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer class="border-top footer text-muted">
     <div class="container">
         &copy; 2025 - Reflexo Nobre - <a href="/Privacy">Privacy</a>
@@ -73,7 +119,6 @@
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

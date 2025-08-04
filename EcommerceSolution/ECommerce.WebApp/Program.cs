@@ -1,9 +1,11 @@
+// ECommerce.WebApp/Program.cs
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ECommerce.WebApp.Data;
-// Se você está usando o Identity embutido do MVC
-// using ECommerce.WebApp.Models; // Para o ApplicationUser do MVC template
-//using Npgsql.EntityFrameworkCore.PostgreSQL; // se for usar Postgres para Identity local do MVC
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System; // Adicione este using para TimeSpan
+using Microsoft.Extensions.DependencyInjection; // Certifique-se deste using
+// ... outros usings ...
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,25 +13,45 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration
     .GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString)); // Ou .UseSqlServer
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+// ***** ESTE É O BLOCO CORRETO DA AUTENTICAÇÃO *****
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Redireciona para a action MVC Login
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Se tiver uma página de acesso negado
+        options.LogoutPath = "/Account/Logout"; // Redireciona para a action MVC Logout
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.SlidingExpiration = true;
+    });
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 // Fim da configuração do Identity embutido do MVC
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor(); // Necessário para HttpContext.Session
 
 // Configura o HttpClient para chamar a ECommerce.API
 builder.Services.AddHttpClient("ECommerceApi", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]!);
-    // Você pode adicionar cabeçalhos padrão aqui, como Content-Type
     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 });
 
-var app = builder.Build();
+// Se você está usando sessões (para armazenar o JWT lá, por exemplo)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Para garantir que o cookie de sessão seja sempre enviado
+});
+
+
+var app = builder.Build(); // <--- TUDO DE CONFIGURAÇÃO DE SERVIÇOS DEVE ESTAR ACIMA DESTA LINHA
 
 if (app.Environment.IsDevelopment())
 {
@@ -46,12 +68,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// MIDDLEWARE DE SESSÃO DEVE VIR ANTES DE AUTENTICAÇÃO/AUTORIZAÇÃO
+app.UseSession();
 app.UseAuthentication(); // Para o Identity embutido do MVC
 app.UseAuthorization();
+
+// REMOVER app.MapRazorPages() - Não usaremos as Razor Pages do Identity diretamente.
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages(); // Para as páginas de Identity geradas
 
 app.Run();
