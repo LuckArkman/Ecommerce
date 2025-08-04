@@ -1,0 +1,13 @@
+@model List<ECommerce.Models.DTOs.Product.CategoryDto>
+
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    @if (Model != null)
+    {
+        @foreach (var category in Model)
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="/products?categoryId=@category.Id">@category.Name</a>
+            </li>
+        }
+    }
+</ul>

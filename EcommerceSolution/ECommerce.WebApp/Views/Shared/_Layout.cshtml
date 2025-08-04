@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - Reflexo Nobre</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/ECommerce.WebApp.styles.css" asp-append-version="true"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Reflexo Nobre</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Privacy">Privacy</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex align-items-center ms-auto">
+                <input class="form-control me-2" type="search" placeholder="Faça uma pesquisa..." aria-label="Search"
+                       id="search-input">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            </div>
+            <div style="padding-left: 25px;" class="ms-6 text-center">
+                <a class="text-reset" href="#"
+                   data-bs-toggle="modal"
+                   data-bs-target="#registerModal">
+                    <div class="lh-1">
+                        <div class="mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em"
+                                 fill="currentColor" class="bi bi-person-circle fs-4">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
+                                <path fill-rule="evenodd"
+                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1">
+
+                                </path>
+                            </svg>
+                        </div>
+                        <p class="mb-0 d-none d-xl-block small">Sign up</p>
+                    </div>
+                </a>
+            </div>
+            <div style="padding-left: 15px;" class="ms-6 text-center">
+                <div class="text-center ms-6"><a class="text-reset" href=""><div class="text-center"><div class="mb-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" class="bi bi-cart2 fs-4"><path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"></path></svg></div><p class="mb-0 d-none d-xl-block small">Shopping Cart</p></div></a></div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-0">
+        @RenderBody()
+    </main>
+</div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Criar Nova Conta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    @Html.AntiForgeryToken() 
+
+                    <div class="mb-3">
+                        <label for="registerEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="registerEmail" name="Email" required>
+                        <div class="invalid-feedback">
+                            Por favor, insira um email válido.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="registerPassword" name="Password" required>
+                        <div class="invalid-feedback">
+                            A senha deve ter pelo menos 6 caracteres.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerConfirmPassword" class="form-label">Confirmar Senha</label>
+                        <input type="password" class="form-control" id="registerConfirmPassword" name="ConfirmPassword" required>
+                        <div class="invalid-feedback">
+                            As senhas não coincidem.
+                        </div>
+                    </div>
+                    <div id="registerMessage" class="alert d-none" role="alert"></div>
+                    <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <p class="mb-0">Já tem uma conta?</p>
+                <button type="button" class="btn btn-link" id="redirectToLoginBtn">Faça login aqui</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2025 - Reflexo Nobre - <a href="/Privacy">Privacy</a>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

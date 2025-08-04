@@ -16,3 +16,5 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/obj/Debug/net8.0/refint/ECommerce.Application.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.pdb
 /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/obj/Debug/net8.0/ref/ECommerce.Application.dll
+/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/bin/Debug/net8.0/ECommerce.Application.runtimeconfig.json
+/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.genruntimeconfig.cache

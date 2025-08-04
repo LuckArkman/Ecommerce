@@ -8,8 +8,8 @@ namespace ECommerce.Infrastructure.Backup
 {
     public class MongoDbSettings
     {
-        public string ConnectionString { get; set; } = string.Empty;
-        public string DatabaseName { get; set; } = string.Empty;
+        public string ConnectionString { get; set; } = "mongodb://localhost:27017";
+        public string DatabaseName { get; set; } = "ECommerce";
         public string ProductsCollectionName { get; set; } = "ProductsBackup";
         public string OrdersCollectionName { get; set; } = "OrdersBackup";
         public string ReviewsCollectionName { get; set; } = "ReviewsBackup";
