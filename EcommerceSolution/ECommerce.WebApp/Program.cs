@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ECommerce.WebApp.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System; // Adicione este using para TimeSpan
+using System;
+using ECommerce.WebApp.Handlers; // Adicione este using para TimeSpan
 using Microsoft.Extensions.DependencyInjection; // Certifique-se deste using
 // ... outros usings ...
 
@@ -33,8 +34,12 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
 // Fim da configuração do Identity embutido do MVC
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpContextAccessor(); // Necessário para HttpContext.Session
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor(); // Needed for HttpContext.Session inside JwtAuthHandler
 
+// Configure the HttpClient for ECommerce.API
+builder.Services.AddTransient<JwtAuthHandler>();
 // Configura o HttpClient para chamar a ECommerce.API
 builder.Services.AddHttpClient("ECommerceApi", client =>
 {
@@ -42,16 +47,15 @@ builder.Services.AddHttpClient("ECommerceApi", client =>
     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 });
 
-// Se você está usando sessões (para armazenar o JWT lá, por exemplo)
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true; // Para garantir que o cookie de sessão seja sempre enviado
+    options.Cookie.IsEssential = true;
 });
 
 
-var app = builder.Build(); // <--- TUDO DE CONFIGURAÇÃO DE SERVIÇOS DEVE ESTAR ACIMA DESTA LINHA
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
