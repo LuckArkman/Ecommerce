@@ -131,15 +131,13 @@ namespace ECommerce.WebApp.Controllers
                             IsPersistent = true, // Permite "Lembrar-me"
                             ExpiresUtc = jwtToken.ValidTo // Define o vencimento do cookie com base no JWT
                         };
-
                         await HttpContext.SignInAsync(
                             CookieAuthenticationDefaults.AuthenticationScheme,
                             new ClaimsPrincipal(claimsIdentity),
                             authProperties);
-                        HttpContext.Session.SetString("JwtToken", loginResult.Token); // Armazena o JWT na sessão
-
-                        _logger.LogInformation($"Login bem-sucedido para usuário: {request.email}");
-                        return LocalRedirect(Url.Content("~/UserProfile"));
+                        TempData["JwtTokenForRedirect"] = loginResult.Token; // Salva o token em TempData
+                        _logger.LogInformation($"Login bem-sucedido. JWT salvo em TempData para redirecionamento. Usuário: {request.email}");
+                        return LocalRedirect(Url.Content("~/Account/UserProfile"));
                     }
                     else
                     {

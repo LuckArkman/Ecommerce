@@ -14,7 +14,6 @@
   <ItemGroup>
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Cart\" />
-    <Folder Include="Views\UserProfile\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.3.7" />
@@ -38,5 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Login\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\UserProfile\Index.cshtml" />
   </ItemGroup>
 </Project>

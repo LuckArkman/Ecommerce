@@ -16,58 +16,53 @@ namespace ECommerce.WebApp.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AccountController> _logger;
 
-        public UserProfileController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        public UserProfileController(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<AccountController> logger)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
+            _logger = logger;
         }
 
         private async Task<HttpClient> GetApiClientWithAuth()
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            // Recupera o token JWT do cookie de autenticação do frontend (se você o armazenou lá)
-            // Ou de alguma sessão/cache, dependendo da sua estratégia de autenticação MVC-API.
-            // Se você usa o Identity MVC puro, precisará de um HttpMessageHandler que pegue o token do cookie.
-            // Por simplicidade, assumindo que você precisa do JWT, você teria que ter armazenado ele após o login.
             
-            // MÉTODO ALTERNATIVO (SE VOCÊ ARMAZENOU O JWT EM UM COOKIE HttpOnly, e configurou um DelegatingHandler)
-            // O HttpClient configurado com "ECommerceApi" já deve estar configurado para enviar o token automaticamente se houver um DelegatingHandler.
-            
-            // SE VOCÊ NÃO TEM UM DELEGATINGHANDLER E O JWT ESTÁ NA SESSÃO/COOKIE DO CLIENTE (NÃO HttpOnly):
             var jwtToken = HttpContext.Session.GetString("JwtToken"); // Exemplo se o token estivesse na sessão
             if (!string.IsNullOrEmpty(jwtToken))
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwtToken);
             }
-            // Se você está logando com Identity.UI no frontend, mas seu backend usa JWT, você precisará
-            // de um DelegatingHandler para o HttpClient para adicionar o JWT às chamadas da API.
-            // Para o teste, você pode usar um JWT fixo ou pegar um de um login anterior se tiver um modo de debug.
 
             return client;
         }
-
-        // Exibir o perfil
+        
+        // Exibir o perfil (CORREÇÃO DE LÓGICA AQUI)
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult>
+            Index(bool isEditMode = false) // Adicione parâmetro para controlar o modo de edição
         {
-            Console.WriteLine("UserProfileController.Index chamado"); 
+            _logger.LogInformation("UserProfileController.Index (GET) chamado para usuário: {UserName}",
+                User.Identity.Name);
             var viewModel = new UserProfileViewModel();
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Obtém o ID do usuário logado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))
             {
-                // Isso não deveria acontecer com [Authorize], mas é uma checagem de segurança
-                return Unauthorized();
+                _logger.LogWarning("UserProfileController (GET): userId nulo após [Authorize]. Redirecionando.");
+                return Unauthorized(); // Isso redireciona para a página de login
             }
 
             try
             {
-                var client = await GetApiClientWithAuth(); // Obtém o cliente com autenticação
+                // ***** RECUPERAR O CLIENTE DIRETAMENTE DO FACTORY *****
+                var client = _httpClientFactory.CreateClient("ECommerceApi");
                 var apiResponse = await client.GetAsync($"api/UserProfile"); // Endpoint na ECommerce.API
-                apiResponse.EnsureSuccessStatusCode(); // Lança exceção para 4xx/5xx
+                apiResponse.EnsureSuccessStatusCode();
 
-                var userProfileDto = JsonConvert.DeserializeObject<UserProfileDto>(await apiResponse.Content.ReadAsStringAsync());
+                var userProfileDto =
+                    JsonConvert.DeserializeObject<UserProfileDto>(await apiResponse.Content.ReadAsStringAsync());
                 if (userProfileDto != null)
                 {
                     viewModel.UserProfile = userProfileDto;
@@ -84,26 +79,31 @@ namespace ECommerce.WebApp.Controllers
                         PhoneNumber = userProfileDto.PhoneNumber
                     };
                 }
+
+                viewModel.IsEditMode = isEditMode; // Define o modo de edição com base no parâmetro
             }
             catch (HttpRequestException ex)
             {
-                // Lidar com erros da API (ex: 401 Unauthorized se o token não for enviado ou for inválido)
+                _logger.LogError(ex, "Erro HTTP ao carregar perfil do usuário (GET).");
                 viewModel.Message = $"Erro ao carregar perfil: {ex.Message}";
                 viewModel.IsSuccess = false;
-                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
+                    ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {
-                    // Redirecionar para login se for erro de autenticação/autorização
+                    _logger.LogWarning("Perfil (GET): API retornou 401/403. Redirecionando para login.");
                     return RedirectToAction("Login", "Account");
                 }
             }
             catch (JsonException ex)
             {
+                _logger.LogError(ex, "Erro de JSON ao carregar perfil do usuário (GET).");
                 viewModel.Message = $"Erro ao processar dados do perfil: {ex.Message}";
                 viewModel.IsSuccess = false;
             }
 
-            return View(viewModel);
+            return View(viewModel); // Retorna a View com o ViewModel preenchido
         }
+
 
         // Processar a edição do perfil
         [HttpPost]
