@@ -1,0 +1,13 @@
+@page
+@model ECommerce.WebApp.Account.RedirectToProfileModel
+@{
+    ViewData["Title"] = "Redirecionando...";
+    Layout = null; // Não use layout para esta página de redirecionamento
+}
+
+<p>Redirecionando para o seu perfil...</p>
+<script>
+    // Opcional: Um pequeno atraso ou mensagem visual antes do redirecionamento
+    // para dar tempo ao navegador de processar o cookie, etc.
+    // window.location.href = '@Url.Content("~/UserProfile")';
+</script>
