@@ -130,7 +130,7 @@ namespace ECommerce.WebApp.Models
                             HttpContext.Session.SetString("JwtToken", loginResult.Token);
 
                             _logger.LogInformation("Usuário logado via API.");
-                            return LocalRedirect(Url.Content("~/UserProfile")); // Redireciona para o perfil
+                            return RedirectToAction("Index", "UserProfile");
                         }
                         else
                         {

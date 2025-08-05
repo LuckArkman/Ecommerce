@@ -74,8 +74,6 @@ app.UseSession();
 app.UseAuthentication(); // Para o Identity embutido do MVC
 app.UseAuthorization();
 
-// app.MapRazorPages(); // Esta linha DEVE SER REMOVIDA se você usa Views MVC para Login/Register/etc.
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
