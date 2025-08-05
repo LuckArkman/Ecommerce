@@ -132,12 +132,12 @@ namespace ECommerce.WebApp.Controllers
                             ExpiresUtc = jwtToken.ValidTo // Define o vencimento do cookie com base no JWT
                         };
                         await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme,
-                            new ClaimsPrincipal(claimsIdentity),
+                            CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),
                             authProperties);
-                        TempData["JwtTokenForRedirect"] = loginResult.Token; // Salva o token em TempData
-                        _logger.LogInformation($"Login bem-sucedido. JWT salvo em TempData para redirecionamento. Usuário: {request.email}");
-                        return LocalRedirect(Url.Content("~/Account/UserProfile"));
+                        //TempData["JwtTokenForRedirect"] = loginResult.Token; // Salva o token em TempData
+                        HttpContext.Session.SetString("JwtToken", loginResult.Token);
+                        _logger.LogInformation($"Login bem-sucedido. JWT salvo na sessão. Usuário: {request.email}");
+                        return RedirectToAction("Index", "UserProfile");
                     }
                     else
                     {

@@ -1,19 +1,106 @@
-@page
-@model ECommerce.WebApp.Views.UserProfile.Index
+@model ECommerce.WebApp.Models.UserProfileViewModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Meu Perfil - Reflexo Nobre";
 }
 
-<!DOCTYPE html>
+<div class="container my-5">
+    <div class="card p-4 shadow-sm">
+        <div class="card-body">
+            <h1 class="card-title text-center mb-4 text-primary fw-bold">Meu Perfil</h1>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+                    @Model.Message
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (Model.IsEditMode)
+            {
+                <!-- Formulário de Edição -->
+                <form asp-controller="UserProfile" asp-action="Index" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <h5 class="mb-3">Editar Informações Pessoais </h5>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="UpdateRequest.FirstName" class="form-label">Primeiro Nome</label>
+                            <input asp-for="UpdateRequest.FirstName" class="form-control" />
+                            <span asp-validation-for="UpdateRequest.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="UpdateRequest.LastName" class="form-label">Sobrenome</label>
+                            <input asp-for="UpdateRequest.LastName" class="form-control" />
+                            <span asp-validation-for="UpdateRequest.LastName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="UpdateRequest.Email" class="form-label">Email</label>
+                            <input asp-for="UpdateRequest.Email" class="form-control" type="email" />
+                            <span asp-validation-for="UpdateRequest.Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="UpdateRequest.PhoneNumber" class="form-label">Telefone</label>
+                            <input asp-for="UpdateRequest.PhoneNumber" class="form-control" type="tel" />
+                            <span asp-validation-for="UpdateRequest.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="UpdateRequest.Address" class="form-label">Endereço</label>
+                            <input asp-for="UpdateRequest.Address" class="form-control" />
+                            <span asp-validation-for="UpdateRequest.Address" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="UpdateRequest.City" class="form-label">Cidade</label>
+                            <input asp-for="UpdateRequest.City" class="form-control" />
+                            <span asp-validation-for="UpdateRequest.City" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="UpdateRequest.State" class="form-label">Estado</label>
+                            <input asp-for="UpdateRequest.State" class="form-control" />
+                            <span asp-validation-for="UpdateRequest.State" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="UpdateRequest.ZipCode" class="form-label">CEP</label>
+                            <input asp-for="UpdateRequest.ZipCode" class="form-control" />
+                            <span asp-validation-for="UpdateRequest.ZipCode" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary me-2">Salvar Alterações</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "UserProfile", new { isEditMode = false })'">Cancelar</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <!-- Modo de Visualização -->
+                <h5 class="mb-3">Informações Pessoais</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6"><strong>Primeiro Nome:</strong> @Model.UserProfile.FirstName</div>
+                    <div class="col-md-6"><strong>Sobrenome:</strong> @Model.UserProfile.LastName</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6"><strong>Email:</strong> @Model.UserProfile.Email</div>
+                    <div class="col-md-6"><strong>Telefone:</strong> @Model.UserProfile.PhoneNumber</div>
+                </div>
+                <div class="mb-3"><strong>Endereço:</strong> @Model.UserProfile.Address</div>
+                <div class="row mb-4">
+                    <div class="col-md-4"><strong>Cidade:</strong> @Model.UserProfile.City</div>
+                    <div class="col-md-4"><strong>Estado:</strong> @Model.UserProfile.State</div>
+                    <div class="col-md-4"><strong>CEP:</strong> @Model.UserProfile.ZipCode</div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='@Url.Action("Index", "UserProfile", new { isEditMode = true })'">Editar Perfil</button>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-</body>
-</html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}
