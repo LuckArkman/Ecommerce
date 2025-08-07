@@ -1,10 +1,7 @@
-// ECommerce.Application/Interfaces/IUserService.cs
-
 using ECommerce.Models.DTOs.User;
 using ECommerce.Application.Interfaces;
-using ECommerce.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
+using ApplicationUser = ECommerce.Domain.Entities.ApplicationUser;
 
 public class UserService : IUserService
 {

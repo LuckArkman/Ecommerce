@@ -1,19 +1,23 @@
+// ECommerce.WebApp/Controllers/CartController.cs
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ECommerce.Models.DTOs.Cart;
 using Newtonsoft.Json;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization; // Para o [Authorize]
-using ECommerce.Models.DTOs.User;
-using ECommerce.WebApp.Models;
+using System.Security.Claims; // Para ClaimsPrincipal, ClaimTypes
+using Microsoft.AspNetCore.Authorization; // Para [Authorize]
+using ECommerce.Models.DTOs.Cart; // Para CartItemDto, AddToCartRequest
+using ECommerce.WebApp.Models; // Para CartViewModel
+using System.Text;
+using System.Linq;
+using System.Net.Http.Headers; // Para AuthenticationHeaderValue
 
 namespace ECommerce.WebApp.Controllers
 {
+    //[Authorize] // O carrinho deve ser vinculado a um usuário logado
     public class CartController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHttpContextAccessor _httpContextAccessor; // Para acessar cookies/sessão se precisar
+        private readonly IHttpContextAccessor _httpContextAccessor; // Para acessar a sessão (para o JWT)
 
         public CartController(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
@@ -21,65 +25,131 @@ namespace ECommerce.WebApp.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        // Ação para adicionar/atualizar item via AJAX
-        [HttpPost]
-        [Authorize] // Exige que o usuário esteja logado
-        [ValidateAntiForgeryToken] // Proteção CSRF
-        public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
+        // Ação para exibir a página do carrinho
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Obtém o ID do usuário logado no MVC Identity
+            var viewModel = new CartViewModel();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Repassa o token JWT para a API, se estiver usando autenticação JWT
-            var token = HttpContext.Session.GetString("JwtToken"); // Ou de um cookie seguro
-            if (!string.IsNullOrEmpty(token))
+            if (!string.IsNullOrEmpty(userId))
             {
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            }
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized(new { message = "Usuário não autenticado." });
+                // Isso não deve acontecer com [Authorize], mas é uma checagem de segurança
+                return RedirectToAction("Login", "Account"); // Redireciona se não houver userId
             }
 
             try
             {
-                // Chamar a API de backend para adicionar ao carrinho
-                var response = await client.PostAsJsonAsync("api/cart", request);
-                response.EnsureSuccessStatusCode();
-                return Ok();
+                // O HttpClient "ECommerceApi" já está configurado com JwtAuthHandler no Program.cs
+                var client = _httpClientFactory.CreateClient("ECommerceApi");
+                
+                var apiResponse = await client.GetAsync("api/Cart"); // Chama o endpoint GetUserCart da API
+                apiResponse.EnsureSuccessStatusCode();
+
+                var cartItems = JsonConvert.DeserializeObject<List<CartItemDto>>(await apiResponse.Content.ReadAsStringAsync());
+                
+                viewModel.CartItems = cartItems ?? new List<CartItemDto>();
+                viewModel.CartTotal = viewModel.CartItems.Sum(item => item.Subtotal);
             }
             catch (HttpRequestException ex)
             {
-                // Captura a resposta de erro da API
-                string? errorContent = ex.StatusCode.ToString();
-                return StatusCode(((int)ex.StatusCode.Value), new { message = errorContent ?? "Erro ao adicionar ao carrinho na API." });
+                // Lidar com erros da API, como 401 Unauthorized se o token expirou
+                ViewBag.ErrorMessage = $"Erro ao carregar carrinho: {ex.Message}";
+                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    return RedirectToAction("Login", "Account"); // Redireciona para login em caso de auth falha
+                }
+            }
+            catch (JsonException ex)
+            {
+                ViewBag.ErrorMessage = $"Erro ao processar dados do carrinho: {ex.Message}";
+            }
+
+            return View(viewModel);
+        }
+
+        // Ação para adicionar/atualizar item via AJAX
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            try
+            {
+                // O HttpClient "ECommerceApi" já está configurado com JwtAuthHandler
+                var client = _httpClientFactory.CreateClient("ECommerceApi");
+                var apiResponse = await client.PostAsJsonAsync("api/Cart", request); // Chama o endpoint AddOrUpdateCartItem
+                apiResponse.EnsureSuccessStatusCode();
+
+                var updatedCartItem = JsonConvert.DeserializeObject<CartItemDto>(await apiResponse.Content.ReadAsStringAsync());
+                return Ok(updatedCartItem); // Retorna o item do carrinho atualizado
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode((int)(ex.StatusCode ?? System.Net.HttpStatusCode.InternalServerError), new { message = ex.Message });
+            }
+        }
+
+        // Ação para remover item via AJAX
+        [HttpDelete("{productId}")] // Mapeia para /Cart/RemoveItem/{productId} (ou /Cart/{productId} se ajustar a rota)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveCartItem(int productId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            try
+            {
+                var client = _httpClientFactory.CreateClient("ECommerceApi");
+                var apiResponse = await client.DeleteAsync($"api/Cart/{productId}"); // Chama o endpoint RemoveCartItem
+                apiResponse.EnsureSuccessStatusCode();
+                return NoContent(); // 204 No Content
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode((int)(ex.StatusCode ?? System.Net.HttpStatusCode.InternalServerError), new { message = ex.Message });
+            }
+        }
+
+        // Ação para limpar o carrinho via AJAX
+        [HttpDelete("clear")] // Mapeia para /Cart/Clear (ou /Cart/ClearCart)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ClearCart()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            try
+            {
+                var client = _httpClientFactory.CreateClient("ECommerceApi");
+                var apiResponse = await client.DeleteAsync("api/Cart/clear"); // Chama o endpoint ClearCart
+                apiResponse.EnsureSuccessStatusCode();
+                return NoContent();
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode((int)(ex.StatusCode ?? System.Net.HttpStatusCode.InternalServerError), new { message = ex.Message });
             }
         }
 
         // Ação para obter contagem de itens do carrinho via AJAX (para o navbar)
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetCartItemCount()
         {
-            var client = _httpClientFactory.CreateClient("ECommerceApi");
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            // Repassa o token JWT
-            var token = HttpContext.Session.GetString("JwtToken");
-            if (!string.IsNullOrEmpty(token))
-            {
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            }
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Json(0); // Retorna 0 se não houver usuário logado
-            }
+            if (string.IsNullOrEmpty(userId)) return Json(0); // 0 se não logado
 
             try
             {
-                var response = await client.GetAsync("api/cart");
+                var client = _httpClientFactory.CreateClient("ECommerceApi");
+                var response = await client.GetAsync("api/Cart");
                 response.EnsureSuccessStatusCode();
                 var content = await response.Content.ReadAsStringAsync();
                 var cartItems = JsonConvert.DeserializeObject<List<CartItemDto>>(content);
@@ -87,52 +157,8 @@ namespace ECommerce.WebApp.Controllers
             }
             catch (HttpRequestException)
             {
-                return Json(0); // Em caso de erro, retorna 0
+                return Json(0); // Em caso de erro, retorna 0 (ex: API inacessível, 401)
             }
         }
-
-        // Action para exibir o carrinho
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Index()
-        {
-            var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var token = HttpContext.Session.GetString("JwtToken");
-            if (!string.IsNullOrEmpty(token))
-            {
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            }
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
-
-            var cartItems = new List<CartItemDto>();
-            try
-            {
-                var response = await client.GetAsync("api/cart");
-                response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync();
-                cartItems = JsonConvert.DeserializeObject<List<CartItemDto>>(content);
-            }
-            catch (HttpRequestException ex)
-            {
-                ViewBag.ErrorMessage = $"Erro ao carregar carrinho: {ex.Message}";
-            }
-
-            var viewModel = new CartViewModel
-            {
-                CartItems = cartItems,
-                CartTotal = cartItems.Sum(item => item.Subtotal)
-            };
-
-            return View(viewModel);
-        }
-
-        // Implemente UpdateQuantity e RemoveItem no CartController
-        // Eles também receberiam requisições AJAX e chamariam a API de backend.
     }
 }
