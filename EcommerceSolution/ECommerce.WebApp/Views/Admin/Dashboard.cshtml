@@ -1,0 +1,88 @@
+@model ECommerce.WebApp.Models.DashboardViewModel
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Scripts {
+    <text>
+        <script src="~/adminlte/plugins/chart.js/Chart.min.js"></script>
+        <script src="~/adminlte/dist/js/demo.js"></script>
+        <script src="~/adminlte/dist/js/pages/dashboard2.js"></script>
+
+        <script>
+            $(function () {
+                var salesData = @Html.Raw(JsonConvert.SerializeObject(Model.DashboardSummary?.Sales?.SalesByMonth));
+                var salesLabels = Object.keys(salesData || {});
+                var salesValues = Object.values(salesData || {});
+
+                var salesLineChartCanvas = $('#salesLineChart').get(0).getContext('2d');
+                var salesLineChartData = {
+                    labels: salesLabels,
+                    datasets: [
+                        {
+                            label: 'Vendas Mensais',
+                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            pointRadius: false,
+                            pointColor: '#3b8bba',
+                            pointStrokeColor: 'rgba(60,141,188,1)',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(60,141,188,1)',
+                            data: salesValues,
+                            fill: false
+                        }
+                    ]
+                };
+                var salesLineChartOptions = {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{ gridLines: { display: false } }],
+                        yAxes: [{ gridLines: { display: false } }]
+                    }
+                };
+                new Chart(salesLineChartCanvas, {
+                    type: 'line',
+                    data: salesLineChartData,
+                    options: salesLineChartOptions
+                });
+
+                var satisfactionData = @Html.Raw(JsonConvert.SerializeObject(Model.DashboardSummary?.CustomerSatisfaction));
+                var positiveReviews = satisfactionData?.positiveReviews || 0;
+                var negativeReviews = satisfactionData?.negativeReviews || 0;
+                var neutralReviews = satisfactionData?.neutralReviews || 0;
+                var totalReviews = satisfactionData?.totalReviews || 0;
+
+                var satisfactionDonutChartCanvas = $('#satisfactionDonutChart').get(0).getContext('2d');
+                var satisfactionDonutData = {
+                    labels: ['Positivas', 'Neutras', 'Negativas'],
+                    datasets: [
+                        {
+                            data: [positiveReviews, neutralReviews, negativeReviews],
+                            backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+                            hoverBackgroundColor: ['#28a745', '#ffc107', '#dc3545']
+                        }
+                    ]
+                };
+                var satisfactionDonutOptions = {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    legend: {
+                        position: 'bottom'
+                    }
+                };
+                new Chart(satisfactionDonutChartCanvas, {
+                    type: 'doughnut',
+                    data: satisfactionDonutData,
+                    options: satisfactionDonutOptions
+                });
+            });
+        </script>
+    </text>
+}

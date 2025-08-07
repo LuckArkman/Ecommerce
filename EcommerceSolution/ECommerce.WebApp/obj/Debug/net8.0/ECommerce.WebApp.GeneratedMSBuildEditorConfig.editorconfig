@@ -32,6 +32,34 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Vc2VyUHJvZmlsZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Orders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vT3JkZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/PendingOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUGVuZGluZ09yZGVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductAdd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdEFkZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductManage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdE1hbmFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Users.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FydC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -58,6 +86,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_LayoutAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRBZG1pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_LoginPartial.cshtml]

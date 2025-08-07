@@ -1,15 +1,18 @@
-using ECommerce.Application.DTOs.Dashboard;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using ECommerce.Models.DTOs.Product;   // Para ProductDto, CategoryDto
-using ECommerce.Models.DTOs.Order;     // Para OrderDto
-using ECommerce.Models.DTOs.User;
-using ECommerce.WebApp.Models; 
-using Newtonsoft.Json;
+// ECommerce.WebApp/Controllers/AdminController.cs
 
-namespace ECommerce.WebApp.Controllers
-{
+// ... (usings e construtor) ...
+
+using ECommerce.Application.DTOs.Dashboard;
+using ECommerce.Models.DTOs.Order;
+using ECommerce.Models.DTOs.Product;
+using ECommerce.Models.DTOs.User;
+using ECommerce.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+#if !DEBUG // <-- Se NÃO estiver em modo DEBUG, aplique Authorize
     [Authorize(Roles = "Admin")] // Apenas usuários com o papel "Admin" podem acessar
+    #endif
     public class AdminController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -26,8 +29,7 @@ namespace ECommerce.WebApp.Controllers
         public async Task<IActionResult> Dashboard()
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var viewModel = new DashboardViewModel(); // Crie este ViewModel
-
+            var viewModel = new DashboardViewModel();
             try
             {
                 // A chamada à API é feita aqui (o JwtAuthHandler anexará o token)
@@ -42,10 +44,10 @@ namespace ECommerce.WebApp.Controllers
                 if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {
                     // Redirecionar para login ou página de acesso negado
-                    return RedirectToAction("AccessDenied", "Account");
+                    return RedirectToAction("Login", "Account"); // Ou "AccessDenied", "Account"
                 }
             }
-            return View(viewModel); // Retorna Views/Admin/Dashboard.cshtml
+            return View(viewModel); // <--- Este é o return correto
         }
 
         // Action para exibir o formulário de adição de produto
@@ -53,7 +55,8 @@ namespace ECommerce.WebApp.Controllers
         public async Task<IActionResult> ProductAdd()
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var viewModel = new ProductAddViewModel(); // Crie este ViewModel
+            var viewModel = new ProductAddViewModel();
+            // return View(viewModel); // <--- REMOVA ESTA LINHA!
             try
             {
                 var categoriesResponse = await client.GetAsync("api/products/categories");
@@ -61,27 +64,30 @@ namespace ECommerce.WebApp.Controllers
                 viewModel.Categories = JsonConvert.DeserializeObject<List<CategoryDto>>(await categoriesResponse.Content.ReadAsStringAsync());
             }
             catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar categorias: {ex.Message}"; }
-            return View(viewModel); // Retorna Views/Admin/ProductAdd.cshtml
+            return View(viewModel);
         }
 
         // Action para processar a adição de produto
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")] // Manter esta proteção para ações de escrita
         public async Task<IActionResult> ProductAdd(ProductDto productDto)
         {
+            var viewModel = new ProductAddViewModel();
+
             if (!ModelState.IsValid)
             {
-                var client = _httpClientFactory.CreateClient("ECommerceApi"); // Recarrega categorias se a validação falhar
-                var viewModel = new ProductAddViewModel();
-                viewModel.Product = productDto;
+                var _client = _httpClientFactory.CreateClient("ECommerceApi");
+                // viewModel = new ProductAddViewModel(); // Nao recrie o ViewModel aqui, ele já está inicializado
+                viewModel.Product = productDto; // Mantenha os dados do formulário
                 try
                 {
-                    var categoriesResponse = await client.GetAsync("api/products/categories");
+                    var categoriesResponse = await _client.GetAsync("api/products/categories");
                     categoriesResponse.EnsureSuccessStatusCode();
                     viewModel.Categories = JsonConvert.DeserializeObject<List<CategoryDto>>(await categoriesResponse.Content.ReadAsStringAsync());
                 }
                 catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar categorias: {ex.Message}"; }
-                return View(viewModel);
+                return View(viewModel); // Retorna a View com erros de validação
             }
 
             var client = _httpClientFactory.CreateClient("ECommerceApi");
@@ -90,12 +96,21 @@ namespace ECommerce.WebApp.Controllers
                 var apiResponse = await client.PostAsJsonAsync("api/products", productDto);
                 apiResponse.EnsureSuccessStatusCode();
                 TempData["SuccessMessage"] = "Produto adicionado com sucesso!";
-                return RedirectToAction("ProductManage"); // Redireciona para a lista de produtos
+                return RedirectToAction("ProductManage");
             }
             catch (HttpRequestException ex)
             {
                 ViewBag.ErrorMessage = $"Erro ao adicionar produto: {ex.Message}";
-                return View("ProductAdd", productDto); // Retorna para o formulário com erro
+                // Recarregue as categorias para a View antes de retornar
+                var _client = _httpClientFactory.CreateClient("ECommerceApi");
+                try
+                {
+                    var categoriesResponse = await _client.GetAsync("api/products/categories");
+                    categoriesResponse.EnsureSuccessStatusCode();
+                    viewModel.Categories = JsonConvert.DeserializeObject<List<CategoryDto>>(await categoriesResponse.Content.ReadAsStringAsync());
+                }
+                catch (HttpRequestException loadEx) { ViewBag.ErrorMessage += $" (Erro ao recarregar categorias: {loadEx.Message})"; }
+                return View(viewModel); // Retorna para o formulário com erro
             }
         }
 
@@ -104,7 +119,8 @@ namespace ECommerce.WebApp.Controllers
         public async Task<IActionResult> ProductManage()
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var viewModel = new ProductManageViewModel(); // Crie este ViewModel
+            var viewModel = new ProductManageViewModel();
+            // return View(viewModel); // <--- REMOVA ESTA LINHA!
             try
             {
                 var productsResponse = await client.GetAsync("api/products");
@@ -112,7 +128,7 @@ namespace ECommerce.WebApp.Controllers
                 viewModel.Products = JsonConvert.DeserializeObject<List<ProductDto>>(await productsResponse.Content.ReadAsStringAsync());
             }
             catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar produtos: {ex.Message}"; }
-            return View(viewModel); // Retorna Views/Admin/ProductManage.cshtml
+            return View(viewModel);
         }
 
         // Action para exibir o formulário de edição de produto
@@ -120,7 +136,7 @@ namespace ECommerce.WebApp.Controllers
         public async Task<IActionResult> ProductEdit(int id)
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var viewModel = new ProductEditViewModel(); // Crie este ViewModel
+            var viewModel = new ProductEditViewModel();
             try
             {
                 var productResponse = await client.GetAsync($"api/products/{id}");
@@ -132,18 +148,21 @@ namespace ECommerce.WebApp.Controllers
                 viewModel.Categories = JsonConvert.DeserializeObject<List<CategoryDto>>(await categoriesResponse.Content.ReadAsStringAsync());
             }
             catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar produto para edição: {ex.Message}"; }
-            return View(viewModel); // Retorna Views/Admin/ProductEdit.cshtml
+            return View(viewModel);
         }
 
         // Action para processar a edição de produto
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")] // Manter esta proteção
         public async Task<IActionResult> ProductEdit(ProductDto productDto)
         {
+            var client = _httpClientFactory.CreateClient("ECommerceApi");
+            var viewModel = new ProductEditViewModel();
+            // return View(viewModel); // <--- REMOVA ESTA LINHA!
+
             if (!ModelState.IsValid)
             {
-                var client = _httpClientFactory.CreateClient("ECommerceApi");
-                var viewModel = new ProductEditViewModel();
                 viewModel.Product = productDto;
                 try
                 {
@@ -154,8 +173,7 @@ namespace ECommerce.WebApp.Controllers
                 catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar categorias: {ex.Message}"; }
                 return View(viewModel);
             }
-
-            var client = _httpClientFactory.CreateClient("ECommerceApi");
+            
             try
             {
                 var apiResponse = await client.PutAsJsonAsync($"api/products/{productDto.Id}", productDto);
@@ -166,7 +184,14 @@ namespace ECommerce.WebApp.Controllers
             catch (HttpRequestException ex)
             {
                 ViewBag.ErrorMessage = $"Erro ao atualizar produto: {ex.Message}";
-                return View("ProductEdit", productDto);
+                try
+                {
+                    var categoriesResponse = await client.GetAsync("api/products/categories");
+                    categoriesResponse.EnsureSuccessStatusCode();
+                    viewModel.Categories = JsonConvert.DeserializeObject<List<CategoryDto>>(await categoriesResponse.Content.ReadAsStringAsync());
+                }
+                catch (HttpRequestException loadEx) { ViewBag.ErrorMessage += $" (Erro ao recarregar categorias: {loadEx.Message})"; }
+                return View(viewModel);
             }
         }
 
@@ -175,15 +200,15 @@ namespace ECommerce.WebApp.Controllers
         public async Task<IActionResult> Orders()
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var viewModel = new OrdersViewModel(); // Crie este ViewModel
+            var viewModel = new OrdersViewModel();
             try
             {
-                var apiResponse = await client.GetAsync("api/orders/all"); // Endpoint na API para todos os pedidos
+                var apiResponse = await client.GetAsync("api/orders/all");
                 apiResponse.EnsureSuccessStatusCode();
                 viewModel.Orders = JsonConvert.DeserializeObject<List<OrderDto>>(await apiResponse.Content.ReadAsStringAsync());
             }
             catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar ordens de serviço: {ex.Message}"; }
-            return View(viewModel); // Retorna Views/Admin/Orders.cshtml
+            return View(viewModel);
         }
 
         // Action para listar todos os usuários
@@ -191,16 +216,16 @@ namespace ECommerce.WebApp.Controllers
         public async Task<IActionResult> Users()
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var viewModel = new UsersViewModel(); // Crie este ViewModel
+            var viewModel = new UsersViewModel();
             try
             {
                 // Este endpoint deve ser criado na API: /api/users/all (ou via IUserService)
-                var apiResponse = await client.GetAsync("api/users/all"); // Endpoint na API para todos os usuários
+                var apiResponse = await client.GetAsync("api/users/all");
                 apiResponse.EnsureSuccessStatusCode();
                 viewModel.Users = JsonConvert.DeserializeObject<List<UserProfileDto>>(await apiResponse.Content.ReadAsStringAsync());
             }
             catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar usuários: {ex.Message}"; }
-            return View(viewModel); // Retorna Views/Admin/Users.cshtml
+            return View(viewModel);
         }
 
         // Action para listar compras com pagamento pendente
@@ -208,16 +233,15 @@ namespace ECommerce.WebApp.Controllers
         public async Task<IActionResult> PendingOrders()
         {
             var client = _httpClientFactory.CreateClient("ECommerceApi");
-            var viewModel = new PendingOrdersViewModel(); // Crie este ViewModel
+            var viewModel = new PendingOrdersViewModel();
+            // return View(viewModel); // <--- REMOVA ESTA LINHA!
             try
             {
-                // Este endpoint deve ser criado na API: /api/orders?status=pending (ou um endpoint específico)
-                var apiResponse = await client.GetAsync("api/orders?status=Pending"); // Endpoint na API para pedidos pendentes
+                var apiResponse = await client.GetAsync("api/orders?status=Pending");
                 apiResponse.EnsureSuccessStatusCode();
                 viewModel.Orders = JsonConvert.DeserializeObject<List<OrderDto>>(await apiResponse.Content.ReadAsStringAsync());
             }
             catch (HttpRequestException ex) { ViewBag.ErrorMessage = $"Erro ao carregar pedidos pendentes: {ex.Message}"; }
-            return View(viewModel); // Retorna Views/Admin/PendingOrders.cshtml
+            return View(viewModel);
         }
     }
-}

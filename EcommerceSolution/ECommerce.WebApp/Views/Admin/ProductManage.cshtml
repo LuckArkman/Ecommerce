@@ -1,0 +1,110 @@
+@model ECommerce.WebApp.Models.ProductManageViewModel
+@{
+    ViewData["Title"] = "Gerenciar Produtos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Lista de Produtos</h3>
+            <div class="card-tools">
+                <a asp-controller="Admin" asp-action="ProductAdd" class="btn btn-primary btn-sm">Adicionar Novo Produto</a>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+            @if (Model.Products == null || !Model.Products.Any())
+            {
+                <p class="text-center p-3">Nenhum produto encontrado.</p>
+            }
+            else
+            {
+                <table class="table table-striped table-valign-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td>@product.Id</td>
+                                <td>
+                                    <img src="@product.ImageUrl" alt="Product 1" class="img-circle img-size-32 mr-2">
+                                    @product.Name
+                                </td>
+                                <td>@product.Price.ToString("C")</td>
+                                <td>@product.Stock</td>
+                                <td>@product.CategoryName</td>
+                                <td>
+                                    <a asp-controller="Admin" asp-action="ProductEdit" asp-route-id="@product.Id" class="btn btn-info btn-sm">Editar</a>
+                                    <button class="btn btn-danger btn-sm delete-product-btn" data-product-id="@product.Id">Excluir</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            // Lógica para excluir produto via AJAX
+            $('.delete-product-btn').on('click', async function () {
+                const productId = $(this).data('product-id');
+                if (!confirm('Tem certeza que deseja excluir este produto?')) {
+                    return;
+                }
+
+                const antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+                try {
+                    const response = await fetch(`/api/products/${productId}`, { // Chamada direta à API
+                        method: 'DELETE',
+                        headers: {
+                            'RequestVerificationToken': antiForgeryToken
+                        }
+                    });
+
+                    if (response.ok) {
+                        alert('Produto excluído com sucesso!');
+                        location.reload(); // Recarrega a página para atualizar a lista
+                    } else if (response.status === 401 || response.status === 403) {
+                        alert('Você não tem permissão para excluir produtos ou sua sessão expirou.');
+                        window.location.href = '/Account/Login'; // Redireciona para login
+                    } else {
+                        const errorText = await response.text();
+                        alert('Erro ao excluir produto: ' + errorText);
+                    }
+                } catch (error) {
+                    console.error('Erro de rede ao excluir produto:', error);
+                    alert('Erro de rede ao excluir produto.');
+                }
+            });
+        });
+    </script>
+}

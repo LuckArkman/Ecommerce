@@ -86,3 +86,6 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/bin/Debug/net8.0/ECommerce.Domain.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/bin/Debug/net8.0/ECommerce.Application.pdb
 /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/bin/Debug/net8.0/ECommerce.Domain.pdb
+/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/bin/Debug/net8.0/WebPx.AdminLTE.AspNetCore.Views.dll
+/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/bin/Debug/net8.0/WebPx.AdminLTE.AspNetCore.dll
+/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/bin/Debug/net8.0/WebPx.Web.Common.dll

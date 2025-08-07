@@ -1,6 +1,9 @@
-namespace ECommerce.WebApp.Models;
+using ECommerce.Models.DTOs.User;
 
-public class UsersViewModel
+namespace ECommerce.WebApp.Models
 {
-    
+    public class UsersViewModel
+    {
+        public List<UserProfileDto>? Users { get; set; }
+    }
 }

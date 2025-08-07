@@ -265,6 +265,10 @@
               "target": "Package",
               "version": "[10.0.0-preview.6.25358.103, )"
             },
+            "WebPx.AdminLTE.AspNetCore": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "bootstrap": {
               "target": "Package",
               "version": "[5.3.7, )"

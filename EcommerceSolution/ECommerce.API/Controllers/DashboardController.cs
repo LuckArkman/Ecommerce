@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
-[ApiController]
-[Authorize(Roles = "Admin")] // Apenas administradores podem acessar o dashboard
+//[ApiController]
+//[Authorize(Roles = "Admin")] // Apenas administradores podem acessar o dashboard
 public class DashboardController : ControllerBase
 {
     private readonly IDashboardService _dashboardService;
