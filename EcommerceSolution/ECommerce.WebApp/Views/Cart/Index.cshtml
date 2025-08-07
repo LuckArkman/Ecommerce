@@ -1,0 +1,232 @@
+@model ECommerce.WebApp.Models.CartViewModel
+
+@{
+    ViewData["Title"] = "Meu Carrinho - Reflexo Nobre";
+}
+
+<div class="container my-5">
+    <!-- Título do Carrinho e Breadcrumb (se quiser adicionar) -->
+    <h1 class="text-center mb-4 text-primary fw-bold">Meu Carrinho</h1>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        @* 
+        <div class="alert alert-danger text-center" role="alert">
+          @ViewBag.ErrorMessage 
+        </div>
+        *@
+    }
+
+    @if (!Model.CartItems.Any())
+    {
+        <!-- Conteúdo do Carrinho Vazio -->
+        <div class="card p-5 text-center shadow-sm">
+            <div class="card-body">
+                <img src="~/images/empty_cart.png" alt="Carrinho Vazio" class="img-fluid mb-4" style="max-width: 200px;">
+                <p class="text-muted">Que tal olhar nossos produtos e receber seu pedido na porta de casa?</p>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary btn-lg mt-3">Voltar às compras</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Conteúdo do Carrinho Cheio -->
+        <div class="card p-4 shadow-sm">
+            <div class="card-body">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 40%;">Produto</th>
+                            <th scope="col" style="width: 15%;">Preço Unit.</th>
+                            <th scope="col" style="width: 15%;">Quantidade</th>
+                            <th scope="col" style="width: 15%;">Subtotal</th>
+                            <th scope="col" style="width: 15%;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr id="cart-item-row-@item.ProductId">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@item.ProductImageUrl" class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: cover;" alt="@item.ProductName">
+                                        <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId" class="text-decoration-none text-dark">
+                                            @item.ProductName
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>@item.Price.ToString("C")</td>
+                                <td>
+                                    <input type="number" 
+                                           class="form-control quantity-input" 
+                                           value="@item.Quantity" 
+                                           min="1" 
+                                           data-product-id="@item.ProductId"
+                                           data-product-price="@item.Price"
+                                           style="width: 80px;">
+                                </td>
+                                <td class="item-subtotal">@item.Subtotal.ToString("C")</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm remove-item-btn" data-product-id="@item.ProductId">Remover</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end fw-bold">Total do Carrinho:</td>
+                            <td class="fw-bold fs-5" id="cart-total">@Model.CartTotal.ToString("C")</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-warning" id="clear-cart-btn">Limpar Carrinho</button>
+                    <a asp-controller="Checkout" asp-action="Index" class="btn btn-success @(!Model.CartItems.Any() ? "disabled" : "")">Finalizar Compra</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            
+            $('.quantity-input').on('change', async function() {
+                const productId = $(this).data('product-id');
+                const newQuantity = parseInt($(this).val());
+                const oldQuantity = parseInt($(this).data('old-quantity') || $(this).val());
+                const price = parseFloat($(this).data('product-price'));
+                const row = $(this).closest('tr');
+                const antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+                if (newQuantity < 1) {
+                    
+                    if (newQuantity <= 0) {
+                        await removeCartItem(productId, antiForgeryToken);
+                        return;
+                    } else {
+                        $(this).val(1);
+                        
+                        row.find('.item-subtotal').text((price * 1).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                        updateCartTotalClient();
+                        return; 
+                    }
+                }
+                try {
+                    const response = await fetch('/Cart/AddToCart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': antiForgeryToken
+                        },
+                        body: JSON.stringify({ productId: productId, quantity: newQuantity })
+                    });
+
+                    if (response.ok) {
+                        const updatedItem = await response.json(); // API retorna o item atualizado
+                        row.find('.item-subtotal').text(updatedItem.subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                        updateCartTotalClient();
+                        await updateCartItemCountClient(); // Atualiza contador da navbar
+                    } else {
+                        const errorData = await response.json();
+                        alert('Erro ao atualizar quantidade: ' + (errorData.message || response.statusText));
+                        $(this).val(oldQuantity); // Reverte a quantidade se falhar
+                    }
+                } catch (error) {
+                    console.error('Erro de rede ao atualizar carrinho:', error);
+                    alert('Erro de rede ao atualizar carrinho.');
+                    $(this).val(oldQuantity); // Reverte a quantidade se falhar
+                }
+            });
+
+            // Lógica para remover item do carrinho
+            $('.remove-item-btn').on('click', async function() {
+                const productId = $(this).data('product-id');
+                const antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+                await removeCartItem(productId, antiForgeryToken);
+            });
+
+            async function removeCartItem(productId, antiForgeryToken) {
+                if (!confirm('Tem certeza que deseja remover este item?')) {
+                    return;
+                }
+                try {
+                    const response = await fetch(`/Cart/RemoveCartItem/${productId}`, {
+                        method: 'DELETE', // Método DELETE para remover
+                        headers: {
+                            'RequestVerificationToken': antiForgeryToken
+                        }
+                    });
+
+                    if (response.ok) {
+                        $(`#cart-item-row-${productId}`).remove(); // Remove a linha da tabela
+                        updateCartTotalClient(); // Atualiza o total
+                        await updateCartItemCountClient(); // Atualiza contador da navbar
+                        if ($('.table tbody tr').length === 0) { // Se não há mais itens, mostra carrinho vazio
+                            window.location.reload(); // Recarrega a página para mostrar o estado "vazio"
+                        }
+                    } else {
+                        const errorData = await response.json();
+                        alert('Erro ao remover item: ' + (errorData.message || response.statusText));
+                    }
+                } catch (error) {
+                    console.error('Erro de rede ao remover item:', error);
+                    alert('Erro de rede ao remover item.');
+                }
+            }
+
+            // Lógica para limpar todo o carrinho
+            $('#clear-cart-btn').on('click', async function() {
+                if (!confirm('Tem certeza que deseja limpar todo o carrinho?')) {
+                    return;
+                }
+                const antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+                try {
+                    const response = await fetch('/Cart/ClearCart', {
+                        method: 'DELETE', // Método DELETE para limpar
+                        headers: {
+                            'RequestVerificationToken': antiForgeryToken
+                        }
+                    });
+
+                    if (response.ok) {
+                        window.location.reload(); // Recarrega a página para mostrar o carrinho vazio
+                    } else {
+                        const errorData = await response.json();
+                        alert('Erro ao limpar carrinho: ' + (errorData.message || response.statusText));
+                    }
+                } catch (error) {
+                    console.error('Erro de rede ao limpar carrinho:', error);
+                    alert('Erro de rede ao limpar carrinho.');
+                }
+            });
+
+            // Função para recalcular o total do carrinho no cliente
+            function updateCartTotalClient() {
+                let newTotal = 0;
+                $('.table tbody tr').each(function() {
+                    const priceText = $(this).find('.quantity-input').data('product-price');
+                    const quantity = parseInt($(this).find('.quantity-input').val());
+                    newTotal += priceText * quantity;
+                });
+                $('#cart-total').text(newTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+            }
+            
+            // Função para atualizar o contador da navbar (via AJAX)
+            async function updateCartItemCountClient() {
+                try {
+                    const response = await fetch('/Cart/GetCartItemCount');
+                    if (response.ok) {
+                        const count = await response.json();
+                        $('#cart-item-count').text(count);
+                    }
+                } catch (error) {
+                    console.error('Erro ao atualizar contador do carrinho:', error);
+                }
+            }
+        });
+    </script>
+}

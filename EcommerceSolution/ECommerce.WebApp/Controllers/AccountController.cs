@@ -135,6 +135,7 @@ namespace ECommerce.WebApp.Controllers
                             CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),
                             authProperties);
                         //TempData["JwtTokenForRedirect"] = loginResult.Token; // Salva o token em TempData
+                        HttpContext.Session.SetString("UserId", loginResult.Id);
                         HttpContext.Session.SetString("JwtToken", loginResult.Token);
                         _logger.LogInformation($"Login bem-sucedido. JWT salvo na sessão. Usuário: {request.email}");
                         return RedirectToAction("Index", "UserProfile");

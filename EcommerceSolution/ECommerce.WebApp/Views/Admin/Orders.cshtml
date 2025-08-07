@@ -1,0 +1,116 @@
+@model ECommerce.WebApp.Models.OrdersViewModel
+@{
+    ViewData["Title"] = "Ordens de Serviço";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Lista Completa de Ordens de Serviço</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+            @if (Model.Orders == null || !Model.Orders.Any())
+            {
+                <p class="text-center p-3">Nenhuma ordem de serviço encontrada.</p>
+            }
+            else
+            {
+                <table class="table table-striped table-valign-middle">
+                    <thead>
+                        <tr>
+                            <th>ID Pedido</th>
+                            <th>Usuário ID</th>
+                            <th>Data</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Rastreamento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <td>@order.Id</td>
+                                <td>@order.UserId</td>
+                                <td>@order.OrderDate.ToShortDateString()</td>
+                                <td>@order.TotalAmount.ToString("C")</td>
+                                <td><span class="badge @(order.Status == "Delivered" ? "bg-success" : order.Status == "Pending" ? "bg-warning" : "bg-info")">@order.Status</span></td>
+                                <td>@(string.IsNullOrEmpty(order.TrackingNumber) ? "N/A" : order.TrackingNumber)</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm update-status-btn" data-order-id="@order.Id" data-current-status="@order.Status" data-tracking-number="@order.TrackingNumber">Atualizar Status</button>
+                                    @* Opcional: link para ver detalhes do pedido *@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
+
+@section Scripts {
+    <!-- jQuery Validate e Unobtrusive para validação (se usar formulários no modal) -->
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            // Lógica para abrir modal de atualização de status (se você quiser um modal)
+            $('.update-status-btn').on('click', function () {
+                const orderId = $(this).data('order-id');
+                const currentStatus = $(this).data('current-status');
+                const trackingNumber = $(this).data('tracking-number');
+
+                // Exemplo simples: prompt para novo status e número de rastreamento
+                let newStatus = prompt(`Atualizar status do Pedido #${orderId} (Atual: ${currentStatus}). Digite o novo status (Pending, Processing, Shipped, Delivered, Cancelled):`, currentStatus);
+                if (newStatus === null) return; // Cancelado
+
+                let newTrackingNumber = prompt(`Atualizar número de rastreamento do Pedido #${orderId} (Atual: ${trackingNumber}). Digite o novo número:`, trackingNumber);
+                if (newTrackingNumber === null) newTrackingNumber = trackingNumber; // Mantém o antigo se cancelar
+
+                if (newStatus) {
+                    updateOrderStatus(orderId, newStatus, newTrackingNumber);
+                }
+            });
+
+            async function updateOrderStatus(orderId, status, trackingNumber) {
+                const antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+                try {
+                    const response = await fetch(`/api/orders/${orderId}/status`, { // Endpoint na API para atualizar status
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': antiForgeryToken
+                        },
+                        body: JSON.stringify({ status: status, trackingNumber: trackingNumber })
+                    });
+
+                    if (response.ok) {
+                        alert('Status do pedido atualizado com sucesso!');
+                        location.reload(); // Recarrega a página para ver a atualização
+                    } else if (response.status === 401 || response.status === 403) {
+                        alert('Você não tem permissão para atualizar pedidos ou sua sessão expirou.');
+                        window.location.href = '/Account/Login';
+                    } else {
+                        const errorText = await response.text();
+                        alert('Erro ao atualizar status: ' + errorText);
+                    }
+                } catch (error) {
+                    console.error('Erro de rede ao atualizar status:', error);
+                    alert('Erro de rede ao atualizar status.');
+                }
+            }
+        });
+    </script>
+}

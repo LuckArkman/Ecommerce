@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ApplicationUser = ECommerce.Domain.Entities.ApplicationUser;
 
 namespace ECommerce.API.Controllers
 {
@@ -54,8 +55,8 @@ namespace ECommerce.API.Controllers
                 return BadRequest(new LoginResult { Success = false, Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
             }
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+            var user = await _userManager.FindByEmailAsync(model.email);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.password))
             {
                 return Unauthorized(new LoginResult { Success = false, Message = "Credenciais inválidas." });
             }
@@ -88,9 +89,16 @@ namespace ECommerce.API.Controllers
             return Ok(new LoginResult
             {
                 Success = true,
+                Id = user.Id,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Message = "Login bem-sucedido!"
             });
+        }
+        [HttpGet("userProfile")]
+        public async Task<ActionResult<object>> userProfile(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return user == null ? null : Ok(user);
         }
     }
 }

@@ -12,10 +12,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Cart\" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.3.7" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
@@ -26,8 +22,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.0" />
     <PackageReference Include="System.Text.Json" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="WebPx.AdminLTE.AspNetCore" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECommerce.Application\ECommerce.Application.csproj" />
     <ProjectReference Include="..\Ecommerce.Models\Ecommerce.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -38,5 +36,8 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Login\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\UserProfile\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\adminlte\" />
   </ItemGroup>
 </Project>

@@ -78,16 +78,14 @@
             {
                 <!-- Modo de Visualização -->
                 <h5 class="mb-3">Informações Pessoais</h5>
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Primeiro Nome:</strong> @Model.UserProfile.FirstName</div>
-                    <div class="col-md-6"><strong>Sobrenome:</strong> @Model.UserProfile.LastName</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Email:</strong> @Model.UserProfile.Email</div>
-                    <div class="col-md-6"><strong>Telefone:</strong> @Model.UserProfile.PhoneNumber</div>
+                <div class="row mb-6">
+                    <div class="col-md-9"><strong>Primeiro Nome:</strong> @Model.UserProfile.FirstName</div>
+                    <div class="col-md-9"><strong>Sobrenome:</strong> @Model.UserProfile.LastName</div>
+                    <div class="col-md-9"><strong>Email:</strong> @Model.UserProfile.Email</div>
+                    <div class="col-md-9"><strong>Telefone:</strong> @Model.UserProfile.PhoneNumber</div>
                 </div>
                 <div class="mb-3"><strong>Endereço:</strong> @Model.UserProfile.Address</div>
-                <div class="row mb-4">
+                <div class="row mb-5">
                     <div class="col-md-4"><strong>Cidade:</strong> @Model.UserProfile.City</div>
                     <div class="col-md-4"><strong>Estado:</strong> @Model.UserProfile.State</div>
                     <div class="col-md-4"><strong>CEP:</strong> @Model.UserProfile.ZipCode</div>

@@ -1,64 +1,55 @@
 // ECommerce.WebApp/Controllers/UserProfileController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization; // Para [Authorize]
 using System.Security.Claims;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using ECommerce.Models.DTOs.User; // DTOs do projeto Models
-using ECommerce.WebApp.Models; // Seu ViewModel customizado
-using System.Text;
-using Microsoft.Extensions.Configuration; // Adicione este using
-using Microsoft.Extensions.Logging; // Adicione este using
-// Remova outros usings desnecessários como Microsoft.AspNetCore.Identity, Authentication, Cookies se não estiverem sendo usados diretamente aqui
+using ECommerce.Application.Interfaces;
+using ECommerce.Models.DTOs.User;
+using ECommerce.WebApp.Models;
+using Newtonsoft.Json; // Para ClaimsPrincipal, ClaimsIdentity
+// ... outros usings ...
 
 namespace ECommerce.WebApp.Controllers
 {
-    [Authorize]
+    // [Authorize] // <-- COMENTE OU REMOVA ESTA LINHA PARA PERMITIR ACESSO ANÔNIMO
     [Route("Account/[controller]")] // Rota para o perfil
     public class UserProfileController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<UserProfileController> _logger; // ***** CORREÇÃO AQUI: Use ILogger<UserProfileController> *****
+        private readonly ILogger<UserProfileController> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor; // Para acessar a sessão
 
         public UserProfileController(
             IHttpClientFactory httpClientFactory,
-            IConfiguration configuration,
-            ILogger<UserProfileController> logger) // ***** CORREÇÃO AQUI: Use ILogger<UserProfileController> *****
+            ILogger<UserProfileController> logger,
+            IHttpContextAccessor httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
-            _configuration = configuration;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
-
-        // Exibir o perfil
+        
         [HttpGet]
         public async Task<IActionResult> Index(bool isEditMode = false)
         {
-            _logger.LogInformation("UserProfileController.Index (GET) chamado para usuário: {UserName}",
-                User.Identity.Name);
+            _logger.LogInformation("UserProfileController.Index (GET) chamado para usuário: {UserName}", User.Identity.Name);
             var viewModel = new UserProfileViewModel();
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
+            Console.WriteLine($"UserId >> {userId} <<");
             if (string.IsNullOrEmpty(userId))
             {
                 _logger.LogWarning("UserProfileController (GET): userId nulo após [Authorize]. Redirecionando.");
-                return Unauthorized();
             }
-
             try
             {
-                // ***** RECUPERAR O CLIENTE DIRETAMENTE DO FACTORY (CORRETO) *****
-                var client = _httpClientFactory.CreateClient("ECommerceApi"); 
-                var apiResponse = await client.GetAsync($"api/UserProfile");
-                apiResponse.EnsureSuccessStatusCode();
+                // ***** CHAMADA PARA A API DO PERFIL DO USUÁRIO *****
+                var apiResponse = await GetProfile($"api/Account/userProfile?userId={userId}") as string;
 
-                var userProfileDto =
-                    JsonConvert.DeserializeObject<UserProfileDto>(await apiResponse.Content.ReadAsStringAsync());
+                var userProfileDto = JsonConvert.DeserializeObject<UserProfileDto>(apiResponse);
+                
                 if (userProfileDto != null)
                 {
                     viewModel.UserProfile = userProfileDto;
+                    // Preenche o UpdateRequest para o formulário de edição
                     viewModel.UpdateRequest = new UpdateUserProfileRequest
                     {
                         Email = userProfileDto.Email,
@@ -70,17 +61,22 @@ namespace ECommerce.WebApp.Controllers
                         ZipCode = userProfileDto.ZipCode,
                         PhoneNumber = userProfileDto.PhoneNumber
                     };
+                    _logger.LogInformation($"Dados do perfil carregados para {userProfileDto.Email}.");
                 }
-                
-                viewModel.IsEditMode = isEditMode;
+                else
+                {
+                    _logger.LogWarning("UserProfileController (GET): userProfileDto retornado nulo da API.");
+                    viewModel.Message = $"Erro: Dados do perfil não encontrados.";
+                    viewModel.IsSuccess = false;
+                }
+                viewModel.IsEditMode = isEditMode; // Define o modo de edição com base no parâmetro
             }
             catch (HttpRequestException ex)
             {
-                _logger.LogError(ex, "Erro HTTP ao carregar perfil do usuário (GET).");
-                viewModel.Message = $"Erro ao carregar perfil: {ex.Message}";
+                _logger.LogError(ex, "Erro HTTP ao carregar perfil do usuário (GET). Status: {StatusCode}", ex.StatusCode);
+                viewModel.Message = $"Erro ao carregar perfil: {ex.Message}. Por favor, tente novamente.";
                 viewModel.IsSuccess = false;
-                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
-                    ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {
                     _logger.LogWarning("Perfil (GET): API retornou 401/403. Redirecionando para login.");
                     return RedirectToAction("Login", "Account");
@@ -92,97 +88,40 @@ namespace ECommerce.WebApp.Controllers
                 viewModel.Message = $"Erro ao processar dados do perfil: {ex.Message}";
                 viewModel.IsSuccess = false;
             }
+            catch (Exception ex) // Catch genérico para qualquer outra exceção
+            {
+                _logger.LogError(ex, "Erro inesperado ao carregar perfil do usuário (GET).");
+                viewModel.Message = $"Erro inesperado: {ex.Message}";
+                viewModel.IsSuccess = false;
+            }
 
-            return View("~/Views/Account/UserProfile/Index.cshtml", viewModel);
+            return View("~/Views/Account/UserProfile/Index.cshtml", viewModel); // Retorna a View com o ViewModel preenchido
         }
 
-        // Processar a edição do perfil (Post)
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(UserProfileViewModel viewModel)
+        private async Task<object> GetProfile(string empty)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId)) return Unauthorized();
-
-            if (!ModelState.IsValid)
+            var cl = _httpClientFactory.CreateClient("ECommerceApi");
+            string url = $"{cl.BaseAddress}{empty}";
+            Console.WriteLine($"Url >> {url} <<");
+            using (HttpClientHandler handler = new HttpClientHandler())
             {
-                viewModel.IsEditMode = true;
-                viewModel.Message = "Por favor, corrija os erros no formulário.";
-                viewModel.IsSuccess = false;
-                try
+                handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                using (HttpClient client = new HttpClient(handler))
                 {
-                    // ***** RECUPERAR O CLIENTE DIRETAMENTE DO FACTORY (CORRETO) *****
-                    var client = _httpClientFactory.CreateClient("ECommerceApi");
-                    var apiResponse = await client.GetAsync($"api/userprofile");
-                    apiResponse.EnsureSuccessStatusCode();
-                    viewModel.UserProfile = JsonConvert.DeserializeObject<UserProfileDto>(await apiResponse.Content.ReadAsStringAsync()) ?? new UserProfileDto();
-                }
-                catch (HttpRequestException ex)
-                { _logger.LogError(ex, "Erro ao recarregar perfil após erro de validação (POST)."); }
-                catch (JsonException ex)
-                { _logger.LogError(ex, "Erro de JSON ao recarregar perfil após erro de validação (POST)."); }
-                return View(viewModel);
-            }
-
-            try
-            {
-                // ***** RECUPERAR O CLIENTE DIRETAMENTE DO FACTORY (CORRETO) *****
-                var client = _httpClientFactory.CreateClient("ECommerceApi");
-                var apiResponse = await client.PutAsJsonAsync("api/userprofile", viewModel.UpdateRequest);
-                apiResponse.EnsureSuccessStatusCode();
-
-                viewModel.Message = "Perfil atualizado com sucesso!";
-                viewModel.IsSuccess = true;
-                viewModel.IsEditMode = false;
-
-                var updatedUserProfileDto = JsonConvert.DeserializeObject<UserProfileDto>(await client.GetAsync($"api/userprofile").Result.Content.ReadAsStringAsync());
-                if (updatedUserProfileDto != null)
-                {
-                    viewModel.UserProfile = updatedUserProfileDto;
-                    viewModel.UpdateRequest = new UpdateUserProfileRequest
+                    try
                     {
-                        Email = updatedUserProfileDto.Email,
-                        FirstName = updatedUserProfileDto.FirstName,
-                        LastName = updatedUserProfileDto.LastName,
-                        Address = updatedUserProfileDto.Address,
-                        City = updatedUserProfileDto.City,
-                        State = updatedUserProfileDto.State,
-                        ZipCode = updatedUserProfileDto.ZipCode,
-                        PhoneNumber = updatedUserProfileDto.PhoneNumber
-                    };
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                _logger.LogError(ex, "Erro HTTP ao atualizar perfil do usuário (POST).");
-                viewModel.Message = $"Erro ao atualizar perfil: {ex.Message}";
-                viewModel.IsSuccess = false;
-                viewModel.IsEditMode = true;
-
-                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                {
-                    _logger.LogWarning("Perfil (POST): API retornou 401/403 ao atualizar. Redirecionando para login.");
-                    return RedirectToAction("Login", "Account");
-                }
-                try {
-                    // ***** RECUPERAR O CLIENTE DIRETAMENTE DO FACTORY (CORRETO) *****
-                    var client = _httpClientFactory.CreateClient("ECommerceApi");
-                    var apiResponse = await client.GetAsync($"api/userprofile");
-                    if (apiResponse.IsSuccessStatusCode) {
-                         viewModel.UserProfile = JsonConvert.DeserializeObject<UserProfileDto>(await apiResponse.Content.ReadAsStringAsync()) ?? new UserProfileDto();
+                        HttpResponseMessage response = await client.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+                        string responseBody = await response.Content.ReadAsStringAsync();
+                        return responseBody;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error No Data: {ex.Message}");
                     }
                 }
-                catch (HttpRequestException loadEx) { _logger.LogError(loadEx, "Erro ao recarregar perfil após falha de atualização (POST)."); }
             }
-            catch (JsonException ex)
-            {
-                _logger.LogError(ex, "Erro de JSON ao atualizar perfil do usuário (POST).");
-                viewModel.Message = $"Erro ao processar dados do perfil: {ex.Message}";
-                viewModel.IsSuccess = false;
-                viewModel.IsEditMode = true;
-            }
-
-            return View(viewModel);
+            return "";
         }
     }
 }
