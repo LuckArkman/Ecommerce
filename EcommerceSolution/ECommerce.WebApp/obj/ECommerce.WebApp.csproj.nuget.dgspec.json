@@ -81,6 +81,14 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.7.0, )"
+            },
+            "RPAX_Excel_ClosedXML": {
+              "target": "Package",
+              "version": "[1.0.0-alpha2, )"
             }
           },
           "imports": [

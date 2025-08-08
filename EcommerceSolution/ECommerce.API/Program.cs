@@ -7,8 +7,6 @@ using Microsoft.OpenApi.Models;
 using ECommerce.Client.Services;
 using ECommerce.Infrastructure.Backup;
 using ECommerce.Infrastructure.Data;
-using Microsoft.IdentityModel.Tokens;
-using System.Text; // Importar o namespace do MongoDB backup
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -129,7 +127,7 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<ApplicationDbContext>();
         // Aplica migrações pendentes para PostgreSQL
         context.Database.Migrate();
-        await ApplicationDbContextInitializer.SeedRolesAndAdminUserAsync(services);
+        await InfrastructureDbContextInitializer.SeedRolesAndAdminUserAsync(services);
     }
     catch (Exception ex)
     {

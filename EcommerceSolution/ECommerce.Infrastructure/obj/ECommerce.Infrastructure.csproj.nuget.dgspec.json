@@ -4,6 +4,119 @@
     "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Infrastructure/ECommerce.Infrastructure.csproj": {}
   },
   "projects": {
+    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj",
+        "projectName": "ECommerce.Application",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj",
+        "packagesPath": "/home/mplopes/.nuget/packages/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mplopes/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
+                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj"
+              },
+              "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
+                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Caching.StackExchangeRedis": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.4.2, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.7.0, )"
+            },
+            "RPAX_Excel_ClosedXML": {
+              "target": "Package",
+              "version": "[1.0.0-alpha2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -99,6 +212,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
+                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj"
+              },
               "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
                 "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj"
               }
@@ -126,6 +242,72 @@
               "version": "[8.0.0, )"
             }
           },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
+        "projectName": "Ecommerce.Models",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
+        "packagesPath": "/home/mplopes/.nuget/packages/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mplopes/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",

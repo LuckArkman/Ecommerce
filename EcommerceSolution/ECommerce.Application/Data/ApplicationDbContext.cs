@@ -29,11 +29,63 @@ namespace ECommerce.Infrastructure.Data
                 new Category { Id = 3, Name = "Clothing", Description = "Apparel and accessories" }
             );
 
-            // Configure relationships
-            builder.Entity<Product>()
-                .HasOne(p => p.Category)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryId);
+            builder.Entity<Product>().HasData(
+                new Product
+                {
+                    Id = 1, // Valor negativo para evitar colisão
+                    Name = "Laptop X1",
+                    Description = "Powerful laptop",
+                    Price = 1200.00m,
+                    Stock = 10,
+                    ImageUrl = "/images/product_images/laptop.jpg",
+                    CategoryId = 1,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-5)
+                },
+                new Product
+                {
+                    Id = 2, // Valor negativo para evitar colisão
+                    Name = "Smartphone Pro",
+                    Description = "Latest model",
+                    Price = 800.00m,
+                    Stock = 2,
+                    ImageUrl = "/images/product_images/smartphone.jpg",
+                    CategoryId = 1,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-3)
+                },
+                new Product
+                {
+                    Id = 3, // Valor negativo para evitar colisão
+                    Name = "Comfortable Sofa",
+                    Description = "Luxury living room sofa",
+                    Price = 1500.00m,
+                    Stock = 1,
+                    ImageUrl = "/images/product_images/sofa.jpg",
+                    CategoryId = 3,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-2)
+                },
+                new Product
+                {
+                    Id = 4, // Valor negativo para evitar colisão
+                    Name = "Coffee Table",
+                    Description = "Modern coffee table",
+                    Price = 300.00m,
+                    Stock = 0,
+                    ImageUrl = "/images/product_images/table.jpg",
+                    CategoryId = 3,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-1)
+                },
+                new Product
+                {
+                    Id = 5, // Valor negativo para evitar colisão
+                    Name = "Book 'The Future'",
+                    Description = "Sci-fi novel",
+                    Price = 25.00m,
+                    Stock = 100,
+                    ImageUrl = "/images/product_images/book.jpg",
+                    CategoryId = 2,
+                    CreatedAt = DateTime.UtcNow
+                }
+            );
 
             builder.Entity<OrderItem>()
                 .HasOne(oi => oi.Order)
