@@ -1,0 +1,74 @@
+@model ECommerce.WebApp.Models.CheckoutViewModel
+@{
+    ViewData["Title"] = "Finalizar Compra - CasaVee";
+}
+
+<div class="container my-5">
+    <h1 class="text-center mb-4 text-primary fw-bold">Finalizar Compra</h1>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card p-4 shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title mb-3">Resumo do Pedido</h4>
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Produto</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Preço Unit.</th>
+                        <th scope="col">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Cart.CartItems)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="@item.ProductImageUrl" class="img-thumbnail me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="@item.ProductName">
+                                    @item.ProductName
+                                </div>
+                            </td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C")</td>
+                            <td>@item.Subtotal.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold">Total:</td>
+                        <td class="fw-bold fs-5">@Model.Cart.CartTotal.ToString("C")</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <hr class="my-4">
+
+            <h4 class="card-title mb-3">Endereço de Entrega</h4>
+            <form asp-controller="Checkout" asp-action="PlaceOrder" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group mb-3">
+                    <label asp-for="ShippingAddress" class="form-label">Endereço Completo</label>
+                    <textarea asp-for="ShippingAddress" class="form-control" rows="3" placeholder="Rua, Número, Bairro, Cidade, Estado, CEP"></textarea>
+                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-secondary">Voltar ao Carrinho</a>
+                    <button type="submit" class="btn btn-primary btn-lg">Pagar com Mercado Pago</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

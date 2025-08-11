@@ -190,6 +190,10 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "Moises.Toolkit.MercadoPago.NetCore": {
+              "target": "Package",
+              "version": "[2.0.0-preview0011, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[3.4.2, )"
@@ -209,6 +213,10 @@
             "RPAX_Excel_ClosedXML": {
               "target": "Package",
               "version": "[1.0.0-alpha2, )"
+            },
+            "mercadopago-sdk": {
+              "target": "Package",
+              "version": "[2.8.0, )"
             }
           },
           "imports": [

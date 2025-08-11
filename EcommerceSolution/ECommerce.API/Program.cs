@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // 1. Configure DbContext para PostgreSQL
+builder.Services.AddScoped<IPaymentService, MercadoPagoPaymentService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection"))); // <-- Usando UseNpgsql
 
@@ -89,6 +90,14 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddScoped<ITrackingService, CorreiosTrackingService>();
+builder.Services.AddHttpClient("CorreiosApi", client =>
+{
+    // A BaseUrl já está definida no construtor do CorreiosTrackingService
+    // Ou defina aqui se preferir um cliente mais genérico
+    // client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce API", Version = "v1" });

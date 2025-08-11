@@ -1,0 +1,70 @@
+@model ECommerce.WebApp.Models.TrackingViewModel
+
+@{
+    ViewData["Title"] = "Rastrear Pedido - CasaVee";
+}
+
+<div class="container my-5">
+    <h1 class="text-center mb-4 text-primary fw-bold">Rastrear Pedido</h1>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card p-4 shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title mb-3">Digite o Código de Rastreamento</h4>
+            <form asp-controller="Orders" asp-action="Track" method="get">
+                <div class="input-group mb-3">
+                    <input asp-for="TrackingNumberInput" class="form-control" placeholder="Ex: AB123456789BR">
+                    <button type="submit" class="btn btn-primary">Rastrear</button>
+                </div>
+                <span asp-validation-for="TrackingNumberInput" class="text-danger"></span>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.TrackingResult != null && !Model.TrackingResult.IsError)
+    {
+        <div class="card p-4 shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title mb-3">Status do Rastreamento: @Model.TrackingResult.TrackingNumber</h4>
+
+                <div class="mb-3">
+                    <p class="fw-bold">Status Atual: <span class="badge @(Model.TrackingResult.IsDelivered ? "bg-success" : "bg-info")">@Model.TrackingResult.OrderStatus</span></p>
+                </div>
+
+                @if (Model.TrackingResult.Events.Any())
+                {
+                    <h5 class="mb-3">Histórico de Eventos:</h5>
+                    <ul class="list-group">
+                        @foreach (var ev in Model.TrackingResult.Events)
+                        {
+                            <li class="list-group-item">
+                                <p class="mb-1"><strong>@ev.Status</strong> - @ev.Description</p>
+                                <small class="text-muted">@ev.DateTime - @ev.Location</small>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted text-center">Nenhum evento de rastreamento encontrado para este código.</p>
+                }
+            </div>
+        </div>
+    }
+    else if (Model.TrackingResult?.IsError == true && string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            @Model.TrackingResult.ErrorMessage
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
