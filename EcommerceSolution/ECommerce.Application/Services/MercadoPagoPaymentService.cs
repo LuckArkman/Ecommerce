@@ -1,86 +1,77 @@
-namespace ECommerce.Application.Services;
-
-using System.Security.Claims;
 using Ecommerce.Models.DTOs.Payment;
-using MercadoPago.Resource.User;
+using MercadoPago.NetCore.Model.Resources.Enum;
+
+namespace ECommerce.Application.Services;
 using ECommerce.Application.Interfaces;
 using ECommerce.Infrastructure.Data;
-using MercadoPago.Client.Preference; // SDK do Mercado Pago
+using MercadoPago.Client.Preference;
 using MercadoPago.Config;
 using MercadoPago.Resource.Preference;
-using Microsoft.Extensions.Configuration; // Para ler Access Token
-using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
-using System.Linq; // Para OrderItems
-using Microsoft.EntityFrameworkCore; // Para Include
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 public class MercadoPagoPaymentService : IPaymentService
 {
-    private readonly ApplicationDbContext _context; // Para acessar Orders, Products
+    private readonly ApplicationDbContext _context;
     private readonly IConfiguration _configuration;
+    private readonly HttpClient _httpClient; // <--- INJETAR HTTPCLIENT AQUI
 
-    public MercadoPagoPaymentService(ApplicationDbContext context, IConfiguration configuration)
+    public MercadoPagoPaymentService(ApplicationDbContext context, IConfiguration configuration, HttpClient httpClient) // <--- ADICIONAR AO CONSTRUTOR
     {
         _context = context;
         _configuration = configuration;
+        _httpClient = httpClient; // <--- ATRIBUIR AQUI
         
-        // Configurar credenciais do Mercado Pago no SDK
         MercadoPagoConfig.AccessToken = _configuration["MercadoPagoSettings:AccessToken"]!;
+
+        // Definir BaseAddress para chamadas de Payment API se for diferente
+        // API de Pagamentos do Mercado Pago: https://api.mercadopago.com/v1/payments/{id}
+        // A API principal do MP é: https://api.mercadopago.com/
+        // O HttpClient injetado pode já ter uma base URL, se não, pode ser definida aqui
+        if (_httpClient.BaseAddress == null)
+        {
+            _httpClient.BaseAddress = new Uri("https://api.mercadopago.com/");
+        }
     }
 
     public async Task<CheckoutResponse> CreateCheckoutPreferenceAsync(CheckoutCreateRequest request)
     {
+        // ... (código existente para CreateCheckoutPreferenceAsync) ...
+        // Este método já usa o SDK PreferenceClient, que deve estar funcionando
         var order = await _context.Orders
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.Product)
-            .FirstOrDefaultAsync(o => o.Id == request.OrderId && o.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)); // Acesso seguro
-
-        // Remover FindFirstValue pois ele vem do User da API, nao do Service
-        // A segurança de UserId viria de um parametro passado do Controller que é [Authorize]
-        // ou de um parametro extra no metodo. Por enquanto, assume que orderId é suficiente para FindFirstOrDefaultAsync
-        order = await _context.Orders
-            .Include(o => o.OrderItems)
-            .ThenInclude(oi => oi.Product)
-            .FirstOrDefaultAsync(o => o.Id == request.OrderId);
+            .FirstOrDefaultAsync(o => o.Id == request.OrderId); 
         
-        if (order == null)
-        {
-            return new CheckoutResponse { Success = false, Message = "Pedido não encontrado ou não pertence ao usuário." };
-        }
-        if (order.Status != "Pending") // Apenas pedidos pendentes podem ser pagos
-        {
-            return new CheckoutResponse { Success = false, Message = "Pedido já pago ou em outro status." };
-        }
-        if (order.TotalAmount != request.TotalAmount) // Validação de valor
-        {
-             return new CheckoutResponse { Success = false, Message = "Inconsistência de valor no pedido." };
-        }
+        if (order == null) return new CheckoutResponse { Success = false, Message = "Pedido não encontrado." };
+        if (order.Status != "Pending") return new CheckoutResponse { Success = false, Message = "Pedido já pago ou em outro status." };
+        if (order.TotalAmount != request.TotalAmount) return new CheckoutResponse { Success = false, Message = "Inconsistência de valor no pedido." };
 
-
-        var preferenceRequest = new PreferenceCreateRequest
+        var preferenceRequest = new MercadoPago.Client.Preference.PreferenceRequest
         {
             Items = order.OrderItems.Select(oi => new PreferenceItemRequest
             {
                 Title = oi.Product?.Name ?? "Produto Desconhecido",
                 Description = oi.Product?.Description ?? "",
                 Quantity = oi.Quantity,
-                CurrencyId = "BRL", // Moeda
+                CurrencyId = CurrencyId.BRL.ToString(),
                 UnitPrice = oi.Price
             }).ToList(),
-            
             Payer = new PreferencePayerRequest { Email = request.PayerEmail },
-
-            // URLs de Redirecionamento (importante!)
-            BackUrls = new PreferenceBackUrlsRequest
-            {
-                Success = request.SuccessUrl,
-                Failure = request.FailureUrl,
-                Pending = request.PendingUrl
+            BackUrls = new PreferenceBackUrlsRequest 
+            { 
+                Success = request.SuccessUrl, 
+                Failure = request.FailureUrl, 
+                Pending = request.PendingUrl 
             },
-            AutoReturn = "approved", // Redireciona automaticamente após pagamento aprovado
-            
-            // Para notificações (IPN/Webhooks)
-            NotificationUrl = _configuration["MercadoPagoSettings:NotificationUrl"] // URL para receber notificações de status
+            AutoReturn = "approved",
+            NotificationUrl = _configuration["MercadoPagoSettings:NotificationUrl"],
+            ExternalReference = order.Id.ToString() // Recommended: Link to order
         };
 
         var client = new PreferenceClient();
@@ -88,13 +79,7 @@ public class MercadoPagoPaymentService : IPaymentService
 
         if (preference != null && !string.IsNullOrEmpty(preference.InitPoint))
         {
-            return new CheckoutResponse
-            {
-                Success = true,
-                CheckoutUrl = preference.InitPoint, // A URL para redirecionar o usuário
-                PaymentId = preference.Id, // ID da preferência (para acompanhar)
-                Message = "Preferência de pagamento criada."
-            };
+            return new CheckoutResponse { Success = true, CheckoutUrl = preference.InitPoint, PaymentId = preference.Id, Message = "Preferência de pagamento criada." };
         }
         else
         {
@@ -102,48 +87,73 @@ public class MercadoPagoPaymentService : IPaymentService
         }
     }
 
+    // ***** IMPLEMENTAÇÃO DE ProcessPaymentNotificationAsync COM HTTPCLIENT MANUAL *****
     public async Task ProcessPaymentNotificationAsync(string topic, string id)
     {
-        // Esta função é chamada pelo webhook do Mercado Pago.
-        // Você precisará de um Controller na API para receber esta notificação.
-        // Exemplo: /api/MercadoPago/Notification?topic=payment&id={id_da_notificacao}
+        // A notificação de pagamento (topic = "payment") envia o ID do pagamento.
+        // Precisamos chamar a API do Mercado Pago para obter detalhes desse pagamento.
 
         if (topic == "payment")
         {
-            var paymentClient = new MercadoPago.Client.Payment.PaymentClient();
-            var payment = await paymentClient.GetAsync(long.Parse(id));
+            // Adicionar cabeçalho de autorização para a chamada da API de Pagamentos
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", MercadoPagoConfig.AccessToken);
 
-            if (payment != null)
+            // Endpoint da API de Pagamentos: https://api.mercadopago.com/v1/payments/{id}
+            var requestUrl = $"v1/payments/{id}";
+
+            try
             {
-                // Obtenha o merchant_order_id (se estiver usando Merchant Orders)
-                var merchantOrderId = payment.Order.Id; 
-                var status = payment.Status; // approved, rejected, pending
-                
-                // Obtenha o OrderId da sua aplicação (do external_reference ou metadata)
-                // Você precisaria ter salvo o OrderId da sua aplicação como ExternalReference na preferenceRequest
-                // preferenceRequest.ExternalReference = order.Id.ToString();
-                var order = await _context.Orders.FirstOrDefaultAsync(o => o.TrackingNumber == merchantOrderId.ToString()); // Exemplo: usar TrackingNumber para armazenar merchant_order_id
+                var response = await _httpClient.GetAsync(requestUrl);
+                response.EnsureSuccessStatusCode(); // Lança exceção para 4xx/5xx
 
-                if (order != null)
+                var content = await response.Content.ReadAsStringAsync();
+                // DTO simplificado para a resposta da API de Pagamento (adapte conforme a resposta real)
+                var paymentDetails = JsonConvert.DeserializeObject<MercadoPagoPaymentDetails>(content); 
+
+                if (paymentDetails != null)
                 {
-                    // Atualize o status do pedido na sua base de dados
-                    switch (status)
+                    // ID da Merchant Order se você estiver usando Merchant Orders
+                    var merchantOrderId = paymentDetails.Order?.Id; 
+                    var status = paymentDetails.Status; // approved, rejected, pending
+
+                    // Você precisaria ter salvo o OrderId da sua aplicação como ExternalReference na preferenceRequest
+                    // Ex: preferenceRequest.ExternalReference = order.Id.ToString();
+                    // Então, buscaria assim: order = await _context.Orders.FirstOrDefaultAsync(o => o.Id.ToString() == paymentDetails.ExternalReference);
+                    
+                    // Como estamos usando TrackingNumber para armazenar merchant_order_id no exemplo:
+                    var order = await _context.Orders.FirstOrDefaultAsync(o => o.TrackingNumber == merchantOrderId.ToString());
+
+                    if (order != null)
                     {
-                        case "approved":
-                            order.Status = "Paid"; // Ou "Delivered", dependendo do fluxo
-                            // Baixa estoque, envia email de confirmação, etc.
-                            break;
-                        case "pending":
-                            order.Status = "PaymentPending";
-                            break;
-                        case "rejected":
-                            order.Status = "PaymentRejected";
-                            break;
+                        switch (status)
+                        {
+                            case "approved":
+                                order.Status = "Paid";
+                                break;
+                            case "pending":
+                                order.Status = "PaymentPending";
+                                break;
+                            case "rejected":
+                                order.Status = "PaymentRejected";
+                                break;
+                        }
+                        await _context.SaveChangesAsync();
                     }
-                    await _context.SaveChangesAsync();
                 }
             }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Erro HTTP ao buscar detalhes do pagamento {id}: {ex.Message}");
+                // Logar o erro, talvez notificar um sistema de monitoramento
+            }
+            catch (JsonException ex)
+            {
+                Console.WriteLine($"Erro JSON ao buscar detalhes do pagamento {id}: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro inesperado ao processar notificação {id}: {ex.Message}");
+            }
         }
-        // ... Lógica para outros tópicos como merchant_order
     }
 }

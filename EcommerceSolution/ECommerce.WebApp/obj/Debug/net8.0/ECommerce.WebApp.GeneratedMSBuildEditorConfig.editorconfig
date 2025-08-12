@@ -64,12 +64,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FydC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Checkout/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hlY2tvdXQvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Checkout/PaymentStatus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hlY2tvdXQvUGF5bWVudFN0YXR1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Orders/Track.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXJzL1RyYWNrLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Products/Details.cshtml]
