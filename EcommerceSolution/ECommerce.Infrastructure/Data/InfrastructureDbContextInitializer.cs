@@ -1,10 +1,9 @@
 using ECommerce.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using System; // For DateTime
+
+// For DateTime
 
 namespace ECommerce.Infrastructure.Data
 {

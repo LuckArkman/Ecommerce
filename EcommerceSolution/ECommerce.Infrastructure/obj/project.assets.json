@@ -166,6 +166,18 @@
           "lib/netstandard1.6/Irony.dll": {}
         }
       },
+      "MercadoPago/1.0.4477.31589": {
+        "type": "package",
+        "dependencies": {
+          "RestSharp": "102.7.0"
+        },
+        "compile": {
+          "lib/MercadoPago.dll": {}
+        },
+        "runtime": {
+          "lib/MercadoPago.dll": {}
+        }
+      },
       "mercadopago-sdk/2.8.0": {
         "type": "package",
         "dependencies": {
@@ -1127,15 +1139,15 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "Newtonsoft.Json/13.0.1": {
+      "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
             "related": ".xml"
           }
         }
@@ -1344,6 +1356,18 @@
             "assetType": "native",
             "rid": "win-x86"
           }
+        }
+      },
+      "RestSharp/102.7.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "(, )"
+        },
+        "compile": {
+          "lib/net35/RestSharp.dll": {}
+        },
+        "runtime": {
+          "lib/net35/RestSharp.dll": {}
         }
       },
       "RPAX/1.0.0-alpha2": {
@@ -3000,7 +3024,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Microsoft.AspNetCore.Identity": "2.3.1"
+          "Microsoft.AspNetCore.Identity": "2.3.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.0",
+          "Microsoft.EntityFrameworkCore": "8.0.0"
         },
         "compile": {
           "bin/placeholder/ECommerce.Domain.dll": {}
@@ -3012,6 +3038,12 @@
       "Ecommerce.Models/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "MercadoPago": "1.0.4477.31589",
+          "Microsoft.AspNetCore.Identity": "2.3.1",
+          "Newtonsoft.Json": "13.0.3",
+          "mercadopago-sdk": "2.8.0"
+        },
         "compile": {
           "bin/placeholder/Ecommerce.Models.dll": {}
         },
@@ -3207,6 +3239,19 @@
         "lib/net452/Irony.dll",
         "lib/net461/Irony.dll",
         "lib/netstandard1.6/Irony.dll"
+      ]
+    },
+    "MercadoPago/1.0.4477.31589": {
+      "sha512": "GX1NSZaDdUcxmBkCEmaoCkJo/+FtZy0RmKbV2Yw9UBf9+2O2kULDhKWEdpWH23zsUoJunXb3taAlmqi5nMWEBw==",
+      "type": "package",
+      "path": "mercadopago/1.0.4477.31589",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/README-MercadoPago.html",
+        "lib/MercadoPago.dll",
+        "mercadopago.1.0.4477.31589.nupkg.sha512",
+        "mercadopago.nuspec"
       ]
     },
     "mercadopago-sdk/2.8.0": {
@@ -4372,14 +4417,15 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Newtonsoft.Json/13.0.1": {
-      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
-      "path": "newtonsoft.json/13.0.1",
+      "path": "newtonsoft.json/13.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
+        "README.md",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -4388,13 +4434,15 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
         "lib/netstandard1.0/Newtonsoft.Json.dll",
         "lib/netstandard1.0/Newtonsoft.Json.xml",
         "lib/netstandard1.3/Newtonsoft.Json.dll",
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
@@ -4561,6 +4609,22 @@
         "runtimes/win-x86/native/libstdc++-6.dll",
         "runtimes/win-x86/native/libwinpthread-1.dll",
         "runtimes/win-x86/native/qpdf.dll"
+      ]
+    },
+    "RestSharp/102.7.0": {
+      "sha512": "G5PnwhT5d92i75cFP4ql+MZXs0AmRCnzV3BDNr01WT1SkY8QODttbJBz2tNJdLcKLuWfhf88/F6ThklStL9Yyw==",
+      "type": "package",
+      "path": "restsharp/102.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35-client/RestSharp.dll",
+        "lib/net35/RestSharp.dll",
+        "lib/sl3-wp/RestSharp.WindowsPhone.dll",
+        "lib/sl4-wp71/RestSharp.WindowsPhone.dll",
+        "lib/sl4/RestSharp.Silverlight.dll",
+        "restsharp.102.7.0.nupkg.sha512",
+        "restsharp.nuspec"
       ]
     },
     "RPAX/1.0.0-alpha2": {
@@ -8391,6 +8455,7 @@
     "net8.0": [
       "ECommerce.Application >= 1.0.0",
       "ECommerce.Domain >= 1.0.0",
+      "Microsoft.AspNetCore.Identity >= 2.3.1",
       "Microsoft.EntityFrameworkCore >= 8.0.0"
     ]
   },
@@ -8400,11 +8465,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Infrastructure/ECommerce.Infrastructure.csproj",
+      "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Infrastructure/ECommerce.Infrastructure.csproj",
       "projectName": "ECommerce.Infrastructure",
-      "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Infrastructure/ECommerce.Infrastructure.csproj",
+      "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Infrastructure/ECommerce.Infrastructure.csproj",
       "packagesPath": "/home/mplopes/.nuget/packages/",
-      "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Infrastructure/obj/",
+      "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Infrastructure/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/mplopes/.nuget/NuGet/NuGet.Config"
@@ -8420,11 +8485,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
-              "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj"
+            "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
+              "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj"
             },
-            "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
-              "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj"
+            "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
+              "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj"
             }
           }
         }
@@ -8445,6 +8510,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Identity": {
+            "target": "Package",
+            "version": "[2.3.1, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[8.0.0, )"
@@ -8475,5 +8544,27 @@
         "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MercadoPago 1.0.4477.31589' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "MercadoPago",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'RestSharp 102.7.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "RestSharp",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

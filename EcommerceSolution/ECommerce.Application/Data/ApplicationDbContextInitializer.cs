@@ -1,7 +1,5 @@
 using ECommerce.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ECommerce.Infrastructure.Data

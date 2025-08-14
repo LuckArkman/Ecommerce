@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using ECommerce.Domain.Entities;
 using ECommerce.Models.DTOs.User; // Importa DTOs do projeto Models
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

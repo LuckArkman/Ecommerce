@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {}
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {}
   },
   "projects": {
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
         "projectName": "Ecommerce.Models",
-        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
         "packagesPath": "/home/mplopes/.nuget/packages/",
-        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/obj/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mplopes/.nuget/NuGet/NuGet.Config"
@@ -44,6 +44,24 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MercadoPago": {
+              "target": "Package",
+              "version": "[1.0.4477.31589, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "mercadopago-sdk": {
+              "target": "Package",
+              "version": "[2.8.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+
 namespace ECommerce.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
@@ -9,5 +10,6 @@ namespace ECommerce.Domain.Entities
         public string? City { get; set; }
         public string? State { get; set; }
         public string? ZipCode { get; set; }
+        
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj": {}
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj": {}
   },
   "projects": {
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj",
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj",
         "projectName": "ECommerce.Application",
-        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj",
         "packagesPath": "/home/mplopes/.nuget/packages/",
-        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/obj/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mplopes/.nuget/NuGet/NuGet.Config"
@@ -27,11 +27,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
-                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj"
+              "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
+                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj"
               },
-              "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
-                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj"
+              "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
+                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj"
               }
             }
           }
@@ -125,14 +125,14 @@
         }
       }
     },
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj",
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj",
         "projectName": "ECommerce.Domain",
-        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/ECommerce.Domain.csproj",
         "packagesPath": "/home/mplopes/.nuget/packages/",
-        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Domain/obj/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mplopes/.nuget/NuGet/NuGet.Config"
@@ -169,6 +169,14 @@
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
               "version": "[2.3.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [
@@ -197,14 +205,14 @@
         }
       }
     },
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj": {
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
         "projectName": "ECommerce.WebApp",
-        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
         "packagesPath": "/home/mplopes/.nuget/packages/",
-        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/obj/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mplopes/.nuget/NuGet/NuGet.Config"
@@ -220,11 +228,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
-                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj"
+              "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj": {
+                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Application/ECommerce.Application.csproj"
               },
-              "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
-                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj"
+              "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
+                "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj"
               }
             }
           }
@@ -319,14 +327,14 @@
         }
       }
     },
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
         "projectName": "Ecommerce.Models",
-        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/Ecommerce.Models.csproj",
         "packagesPath": "/home/mplopes/.nuget/packages/",
-        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/Ecommerce.Models/obj/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/Ecommerce.Models/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mplopes/.nuget/NuGet/NuGet.Config"
@@ -359,6 +367,24 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MercadoPago": {
+              "target": "Package",
+              "version": "[1.0.4477.31589, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "mercadopago-sdk": {
+              "target": "Package",
+              "version": "[2.8.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

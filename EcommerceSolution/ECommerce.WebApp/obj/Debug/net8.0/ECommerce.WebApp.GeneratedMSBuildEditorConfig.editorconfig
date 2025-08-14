@@ -9,117 +9,117 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ECommerce.WebApp
 build_property.RootNamespace = ECommerce.WebApp
-build_property.ProjectDir = /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/
+build_property.ProjectDir = /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp
+build_property.MSBuildProjectDirectory = /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Account/Login.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Account/RedirectToProfile.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Account/RedirectToProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWRpcmVjdFRvUHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Account/UserProfile/Index.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Account/UserProfile/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Vc2VyUHJvZmlsZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Dashboard.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Orders.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Orders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vT3JkZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/PendingOrders.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/PendingOrders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUGVuZGluZ09yZGVycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductAdd.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductAdd.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdEFkZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductEdit.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductEdit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductManage.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/ProductManage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdE1hbmFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Users.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Admin/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Cart/Index.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FydC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Checkout/Index.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Checkout/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hlY2tvdXQvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Checkout/PaymentStatus.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Checkout/PaymentStatus.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hlY2tvdXQvUGF5bWVudFN0YXR1cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Home/Index.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Home/Privacy.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Orders/Track.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Orders/Track.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXJzL1RyYWNrLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Products/Details.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Products/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZHVjdHMvRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Products/Index.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Products/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZHVjdHMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/Components/CategoryMenu/Default.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/Components/CategoryMenu/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQ2F0ZWdvcnlNZW51L0RlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/Error.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_LayoutAdmin.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_LayoutAdmin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRBZG1pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_LoginPartial.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_ValidationScriptsPartial.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/_ViewImports.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/_ViewStart.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_Layout.cshtml]
+[/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-q3604rinz1

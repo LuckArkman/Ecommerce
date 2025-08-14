@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GiN0IYtE/Tc=",
+  "dgSpecHash": "gGatug2dUbs=",
   "success": true,
-  "projectFilePath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
+  "projectFilePath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
   "expectedPackageFiles": [
     "/home/mplopes/.nuget/packages/automapper/8.1.1/automapper.8.1.1.nupkg.sha512",
     "/home/mplopes/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/6.1.1/automapper.extensions.microsoft.dependencyinjection.6.1.1.nupkg.sha512",
@@ -15,6 +15,7 @@
     "/home/mplopes/.nuget/packages/excelnumberformat/1.1.0/excelnumberformat.1.1.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/identitymodel/3.10.10/identitymodel.3.10.10.nupkg.sha512",
     "/home/mplopes/.nuget/packages/irony.netcore/1.0.11/irony.netcore.1.0.11.nupkg.sha512",
+    "/home/mplopes/.nuget/packages/mercadopago/1.0.4477.31589/mercadopago.1.0.4477.31589.nupkg.sha512",
     "/home/mplopes/.nuget/packages/mercadopago-sdk/2.8.0/mercadopago-sdk.2.8.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.aspnetcore.antiforgery/2.3.0/microsoft.aspnetcore.antiforgery.2.3.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.aspnetcore.authentication/2.3.0/microsoft.aspnetcore.authentication.2.3.0.nupkg.sha512",
@@ -125,6 +126,7 @@
     "/home/mplopes/.nuget/packages/pipelines.sockets.unofficial/2.2.8/pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
     "/home/mplopes/.nuget/packages/prmtoolkit.notificationpattern/1.1.2/prmtoolkit.notificationpattern.1.1.2.nupkg.sha512",
     "/home/mplopes/.nuget/packages/questpdf/2025.7.0/questpdf.2025.7.0.nupkg.sha512",
+    "/home/mplopes/.nuget/packages/restsharp/102.7.0/restsharp.102.7.0.nupkg.sha512",
     "/home/mplopes/.nuget/packages/rpax/1.0.0-alpha2/rpax.1.0.0-alpha2.nupkg.sha512",
     "/home/mplopes/.nuget/packages/rpax_excel_closedxml/1.0.0-alpha2/rpax_excel_closedxml.1.0.0-alpha2.nupkg.sha512",
     "/home/mplopes/.nuget/packages/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
@@ -238,5 +240,30 @@
     "/home/mplopes/.nuget/packages/zstdsharp.port/0.7.3/zstdsharp.port.0.7.3.nupkg.sha512",
     "/home/mplopes/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.16/microsoft.aspnetcore.app.ref.8.0.16.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'MercadoPago 1.0.4477.31589' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
+      "warningLevel": 1,
+      "filePath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
+      "libraryId": "MercadoPago",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'RestSharp 102.7.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
+      "warningLevel": 1,
+      "filePath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.WebApp/ECommerce.WebApp.csproj",
+      "libraryId": "RestSharp",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

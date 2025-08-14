@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj": {}
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj": {}
   },
   "projects": {
-    "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj": {
+    "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj",
+        "projectUniqueName": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj",
         "projectName": "ECommerce.Client",
-        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj",
+        "projectPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Client/ECommerce.Client.csproj",
         "packagesPath": "/home/mplopes/.nuget/packages/",
-        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/EcommerceSolution/ECommerce.Client/obj/",
+        "outputPath": "/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.Client/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mplopes/.nuget/NuGet/NuGet.Config"
