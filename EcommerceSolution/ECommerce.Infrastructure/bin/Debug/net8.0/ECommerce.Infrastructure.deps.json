@@ -10,6 +10,7 @@
         "dependencies": {
           "ECommerce.Application": "1.0.0",
           "ECommerce.Domain": "1.0.0",
+          "Microsoft.AspNetCore.Identity": "2.3.1",
           "Microsoft.EntityFrameworkCore": "8.0.0"
         },
         "runtime": {
@@ -108,7 +109,7 @@
       },
       "IdentityModel/3.10.10": {
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1",
+          "Newtonsoft.Json": "13.0.3",
           "System.Text.Encodings.Web": "8.0.0"
         },
         "runtime": {
@@ -134,9 +135,14 @@
           }
         }
       },
+      "MercadoPago/1.0.4477.31589": {
+        "dependencies": {
+          "RestSharp": "102.7.0"
+        }
+      },
       "mercadopago-sdk/2.8.0": {
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1",
+          "Newtonsoft.Json": "13.0.3",
           "System.Configuration.ConfigurationManager": "6.0.0"
         },
         "runtime": {
@@ -683,7 +689,7 @@
       },
       "Moises.Toolkit.MercadoPago.NetCore.Model/2.0.0-preview0011": {
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/MercadoPago.NetCore.Model.dll": {
@@ -694,7 +700,7 @@
       },
       "Moises.Toolkit.Newtonsoft.FluentAPI/2.0.2": {
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.FluentAPI.dll": {
@@ -780,11 +786,11 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "Newtonsoft.Json/13.0.1": {
+      "Newtonsoft.Json/13.0.3": {
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "13.0.0.0",
-            "fileVersion": "13.0.1.25517"
+            "fileVersion": "13.0.3.27908"
           }
         }
       },
@@ -997,6 +1003,17 @@
             "rid": "win-x86",
             "assetType": "native",
             "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "RestSharp/102.7.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net35/RestSharp.dll": {
+            "assemblyVersion": "102.7.0.0",
+            "fileVersion": "102.7.0.0"
           }
         }
       },
@@ -1869,7 +1886,9 @@
       },
       "ECommerce.Domain/1.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Identity": "2.3.1"
+          "Microsoft.AspNetCore.Identity": "2.3.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.0",
+          "Microsoft.EntityFrameworkCore": "8.0.0"
         },
         "runtime": {
           "ECommerce.Domain.dll": {
@@ -1879,6 +1898,12 @@
         }
       },
       "Ecommerce.Models/1.0.0": {
+        "dependencies": {
+          "MercadoPago": "1.0.4477.31589",
+          "Microsoft.AspNetCore.Identity": "2.3.1",
+          "Newtonsoft.Json": "13.0.3",
+          "mercadopago-sdk": "2.8.0"
+        },
         "runtime": {
           "Ecommerce.Models.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -1963,6 +1988,13 @@
       "sha512": "sha512-/2MCkqdhEjPiSTZKYXg6u9AO9o3m68biqcFHAnM28WdnrcZii2vYbmKPzT5ejByyV72FUlygOtHBMt8SLnUyNw==",
       "path": "irony.netcore/1.0.11",
       "hashPath": "irony.netcore.1.0.11.nupkg.sha512"
+    },
+    "MercadoPago/1.0.4477.31589": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GX1NSZaDdUcxmBkCEmaoCkJo/+FtZy0RmKbV2Yw9UBf9+2O2kULDhKWEdpWH23zsUoJunXb3taAlmqi5nMWEBw==",
+      "path": "mercadopago/1.0.4477.31589",
+      "hashPath": "mercadopago.1.0.4477.31589.nupkg.sha512"
     },
     "mercadopago-sdk/2.8.0": {
       "type": "package",
@@ -2342,12 +2374,12 @@
       "path": "netstandard.library/1.6.1",
       "hashPath": "netstandard.library.1.6.1.nupkg.sha512"
     },
-    "Newtonsoft.Json/13.0.1": {
+    "Newtonsoft.Json/13.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
-      "path": "newtonsoft.json/13.0.1",
-      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
+      "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "path": "newtonsoft.json/13.0.3",
+      "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
     },
     "Npgsql/8.0.0": {
       "type": "package",
@@ -2383,6 +2415,13 @@
       "sha512": "sha512-yRjdm7p300eEuy4Mi9YdMuecl2cvTU/CV+IHHDzw22Uf43/0C2zeG4c+MthZqkpQNJPg0Agha1iBSmLBxX1vHA==",
       "path": "questpdf/2025.7.0",
       "hashPath": "questpdf.2025.7.0.nupkg.sha512"
+    },
+    "RestSharp/102.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-G5PnwhT5d92i75cFP4ql+MZXs0AmRCnzV3BDNr01WT1SkY8QODttbJBz2tNJdLcKLuWfhf88/F6ThklStL9Yyw==",
+      "path": "restsharp/102.7.0",
+      "hashPath": "restsharp.102.7.0.nupkg.sha512"
     },
     "RPAX/1.0.0-alpha2": {
       "type": "package",
