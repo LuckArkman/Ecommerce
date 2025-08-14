@@ -6,6 +6,229 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<div class="container-fluid">
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <!-- Small Box (Stat boxes) -->
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>@Model.DashboardSummary?.Sales?.TotalOrders</h3> @* Remover ?? 0 *@
+                    <p>Total de Pedidos</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a asp-controller="Admin" asp-action="Orders" class="small-box-footer">Ver Pedidos <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>@Model.DashboardSummary?.Sales?.TotalSales.ToString("C") <sup style="font-size: 20px"></sup>
+                    </h3>
+                    <p>Total de Vendas</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>@Model.DashboardSummary?.Stock?.OutOfStockProducts</h3> @* Remover ?? 0 *@
+                    <p>Produtos sem Estoque</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a asp-controller="Admin" asp-action="ProductManage" class="small-box-footer">Gerenciar Estoque <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>@Model.DashboardSummary?.Deliveries?.PendingDeliveries</h3> @* Remover ?? 0 *@
+                    <p>Entregas Pendentes</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a asp-controller="Admin" asp-action="PendingOrders" class="small-box-footer">Ver Entregas <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Gráficos de Vendas e Satisfação -->
+    <div class="row">
+        <!-- Gráfico de Vendas por Mês (Line Chart) -->
+        <div class="col-md-7">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Visão Geral de Vendas Mensais</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="salesLineChart"
+                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico de Satisfação do Cliente (Donut Chart) -->
+        <div class="col-md-5">
+            <div class="card card-success card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Fontes de Avaliação de Satisfação</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="satisfactionDonutChart"
+                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- NOVAS SEÇÕES: Produtos Mais Bem Avaliados, Produtos Mais Vendidos, e Exportar Relatório -->
+    <div class="row">
+        <!-- Produtos Mais Bem Avaliados -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Top 5 Produtos Mais Bem Avaliados</h3>
+                    <div class="card-tools">
+                        <a href="#" class="btn btn-tool btn-sm">
+                            <i class="fas fa-arrow-circle-right"></i> Ver Todas Avaliações
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.DashboardSummary?.TopRatedProducts == null || !Model.DashboardSummary.TopRatedProducts.Any())
+                    {
+                        <p class="text-center p-3 text-muted">Nenhum produto bem avaliado encontrado.</p>
+                    }
+                    else
+                    {
+                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                            @foreach (var product in Model.DashboardSummary.TopRatedProducts)
+                            {
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img src="@product.ImageUrl" alt="Product Image" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="/products/@product.Id" class="product-title">@product.Name
+                                            <span
+                                                class="badge badge-info float-right">@product.Price.ToString("C")</span>
+                                        </a>
+                                        <span class="product-description">
+                                            @product.Description
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Produtos Mais Vendidos -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Top 5 Produtos Mais Vendidos</h3>
+                    <div class="card-tools">
+                        <a asp-controller="Admin" asp-action="ProductManage" class="btn btn-tool btn-sm">
+                            <i class="fas fa-arrow-circle-right"></i> Gerenciar Produtos
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.DashboardSummary?.BestSellingProducts == null || !Model.DashboardSummary.BestSellingProducts.Any())
+                    {
+                        <p class="text-center p-3 text-muted">Nenhum produto mais vendido encontrado.</p>
+                    }
+                    else
+                    {
+                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                            @foreach (var product in Model.DashboardSummary.BestSellingProducts)
+                            {
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img src="@product.ImageUrl" alt="Product Image" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="/products/@product.Id" class="product-title">@product.Name
+                                            <span
+                                                class="badge badge-success float-right">@product.Stock em estoque</span>
+                                        </a>
+                                        <span class="product-description">
+                                            @product.Description
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Botões de Exportar Relatório -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Exportar Relatórios</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Gere e baixe relatórios detalhados do dashboard.</p>
+                    <a asp-controller="Admin" asp-action="ExportPdf" class="btn btn-primary btn-sm mr-2">
+                        <i class="fas fa-file-pdf mr-1"></i> Exportar PDF de Vendas
+                    </a>
+                    <a asp-controller="Admin" asp-action="ExportExcel" class="btn btn-success btn-sm">
+                        <i class="fas fa-file-excel mr-1"></i> Exportar Excel de Vendas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.container-fluid -->
+
 @section Scripts {
     <text>
         <script src="~/adminlte/plugins/chart.js/Chart.min.js"></script>
@@ -14,6 +237,7 @@
 
         <script>
             $(function () {
+                // Dados de Vendas por Mês (Line Chart)
                 var salesData = @Html.Raw(JsonConvert.SerializeObject(Model.DashboardSummary?.Sales?.SalesByMonth));
                 var salesLabels = Object.keys(salesData || {});
                 var salesValues = Object.values(salesData || {});
@@ -24,7 +248,7 @@
                     datasets: [
                         {
                             label: 'Vendas Mensais',
-                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            backgroundColor: 'rgba(60,141,188,0.9)', // Azul primário do AdminLTE
                             borderColor: 'rgba(60,141,188,0.8)',
                             pointRadius: false,
                             pointColor: '#3b8bba',
@@ -32,7 +256,7 @@
                             pointHighlightFill: '#fff',
                             pointHighlightStroke: 'rgba(60,141,188,1)',
                             data: salesValues,
-                            fill: false
+                            fill: false // Importante para gráfico de linha sem preenchimento
                         }
                     ]
                 };
@@ -43,16 +267,17 @@
                         display: false
                     },
                     scales: {
-                        xAxes: [{ gridLines: { display: false } }],
-                        yAxes: [{ gridLines: { display: false } }]
+                        xAxes: [{gridLines: {display: false}}],
+                        yAxes: [{gridLines: {display: false}}]
                     }
                 };
                 new Chart(salesLineChartCanvas, {
-                    type: 'line',
+                    type: 'line', // Gráfico de linha
                     data: salesLineChartData,
                     options: salesLineChartOptions
                 });
 
+                // Dados de Satisfação do Cliente (Donut Chart)
                 var satisfactionData = @Html.Raw(JsonConvert.SerializeObject(Model.DashboardSummary?.CustomerSatisfaction));
                 var positiveReviews = satisfactionData?.positiveReviews || 0;
                 var negativeReviews = satisfactionData?.negativeReviews || 0;

@@ -282,6 +282,68 @@ namespace ECommerce.Application.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            CreatedAt = new DateTime(2025, 3, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8363),
+                            Description = "Powerful laptop",
+                            ImageUrl = "/images/product_images/laptop.jpg",
+                            Name = "Laptop X1",
+                            Price = 1200.00m,
+                            Stock = 10,
+                            UpdatedAt = new DateTime(2025, 8, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8359)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            CreatedAt = new DateTime(2025, 5, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8371),
+                            Description = "Latest model",
+                            ImageUrl = "/images/product_images/smartphone.jpg",
+                            Name = "Smartphone Pro",
+                            Price = 800.00m,
+                            Stock = 2,
+                            UpdatedAt = new DateTime(2025, 8, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8370)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            CreatedAt = new DateTime(2025, 6, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8374),
+                            Description = "Luxury living room sofa",
+                            ImageUrl = "/images/product_images/sofa.jpg",
+                            Name = "Comfortable Sofa",
+                            Price = 1500.00m,
+                            Stock = 1,
+                            UpdatedAt = new DateTime(2025, 8, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8373)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 3,
+                            CreatedAt = new DateTime(2025, 7, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8377),
+                            Description = "Modern coffee table",
+                            ImageUrl = "/images/product_images/table.jpg",
+                            Name = "Coffee Table",
+                            Price = 300.00m,
+                            Stock = 0,
+                            UpdatedAt = new DateTime(2025, 8, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8376)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            CreatedAt = new DateTime(2025, 8, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8380),
+                            Description = "Sci-fi novel",
+                            ImageUrl = "/images/product_images/book.jpg",
+                            Name = "Book 'The Future'",
+                            Price = 25.00m,
+                            Stock = 100,
+                            UpdatedAt = new DateTime(2025, 8, 7, 18, 11, 34, 7, DateTimeKind.Utc).AddTicks(8378)
+                        });
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Review", b =>

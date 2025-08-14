@@ -1,0 +1,21 @@
+@* Views/Checkout/PaymentStatus.cshtml *@
+@{
+    ViewData["Title"] = "Status do Pagamento - CasaVee";
+}
+
+<div class="container my-5 text-center">
+    <div class="card p-5 shadow-sm">
+        <div class="card-body">
+            @if (ViewBag.Message != null)
+            {
+                <h3 class="mb-4 text-primary">@ViewBag.Message</h3>
+            }
+            else
+            {
+                <h3 class="mb-4 text-primary">Verificando status do pagamento...</h3>
+            }
+            <p class="text-muted">Você pode acompanhar o status do seu pedido em <a asp-controller="MyOrders" asp-action="Index">Meus Pedidos</a>.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-primary mt-3">Continuar Comprando</a>
+        </div>
+    </div>
+</div>

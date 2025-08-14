@@ -1,18 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Models", "Ecommerce.Models\Ecommerce.Models.csproj", "{038385C9-4A77-40FF-B577-3A93360B0AA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Models", "Ecommerce.Models/Ecommerce.Models.csproj", "{038385C9-4A77-40FF-B577-3A93360B0AA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Application", "ECommerce.Application\ECommerce.Application.csproj", "{0C417AEE-883D-4F80-BFE4-0266ECC9FC9A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Application", "ECommerce.Application/ECommerce.Application.csproj", "{0C417AEE-883D-4F80-BFE4-0266ECC9FC9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Domain", "ECommerce.Domain\ECommerce.Domain.csproj", "{3755ED9B-DEBB-49EE-9F5F-559214143917}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Domain", "ECommerce.Domain/ECommerce.Domain.csproj", "{3755ED9B-DEBB-49EE-9F5F-559214143917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Infrastructure", "ECommerce.Infrastructure\ECommerce.Infrastructure.csproj", "{C6767D0C-25AC-407C-A608-A2A136891126}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Infrastructure", "ECommerce.Infrastructure/ECommerce.Infrastructure.csproj", "{C6767D0C-25AC-407C-A608-A2A136891126}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Client", "ECommerce.Client\ECommerce.Client.csproj", "{80E0F7F1-3F91-4FFC-9C32-749B5B770647}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Client", "ECommerce.Client/ECommerce.Client.csproj", "{80E0F7F1-3F91-4FFC-9C32-749B5B770647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.WebApp", "ECommerce.WebApp\ECommerce.WebApp.csproj", "{1FAA4C3C-3619-4331-9B8C-F0C4FE3D6000}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.WebApp", "ECommerce.WebApp/ECommerce.WebApp.csproj", "{1FAA4C3C-3619-4331-9B8C-F0C4FE3D6000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.API", "ECommerce.API\ECommerce.API.csproj", "{934B87E6-7CE0-4057-9C69-4F2872211CD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.API", "ECommerce.API/ECommerce.API.csproj", "{934B87E6-7CE0-4057-9C69-4F2872211CD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{44107047-4220-4717-AEE9-77C3EBE3348A}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
