@@ -20,3 +20,94 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+:root {
+    --bs-primary: #6a4f41; /* Marrom escuro da marca (pode ser usado para texto principal) */
+    --bs-secondary: #D2691E; /* Um verde/cinza terroso (pode ser ajustado se não combinar) */
+    --bs-light: #D2691E; /* Cor de fundo principal, ou um branco mais puro se quiser */
+    --bs-dark: #333; /* Texto padrão */
+    --bs-info: #52e7ff; /* Cor padrão do Bootstrap para info, pode ser ajustado para um azul mais suave */
+
+    /* ***** NOVAS CORES BASEADAS NA IMAGEM DE REFERÊNCIA ***** */
+    --color-login-background: #F8FFF2; /* Fundo geral da página de login */
+    --color-login-form-bg: #FFFFFF; /* Fundo do card do formulário */
+    --color-login-primary-button: #2196F3; /* Um azul mais vibrante para o botão, se não quiser o marrom */
+    --color-login-link: #03A9F4; /* Azul para links (Forgot password, Register here) */
+    --color-login-text-dark: #333; /* Cor do texto Log in, Email address */
+    --color-login-border: #EEEEEE; /* Borda dos campos de input */
+
+    --color-wood-light: #D4B28C; /* Tom de madeira clara da imagem */
+    --color-beige-creme: #F5F5DC; /* Tom bege/creme dos assentos */
+    --color-orange-copper: #D2691E; /* Tom laranja/cobre da moldura do espelho */
+    /* ******************************************************* */
+
+    --bs-success: #3cb371;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+
+    /* Cores de texto */
+    --bs-body-color: var(--bs-dark);
+    --bs-link-color: var(--bs-primary); /* Links gerais do site */
+
+    /* Fontes */
+    --bs-font-sans-serif: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --bs-font-monospace: 'Playfair Display', serif;
+}
+
+/* Ajustes Específicos para a Página de Login (Login.cshtml) */
+
+/* Seção principal do Login */
+.vh-100 { /* Garante que a seção ocupe a altura total da viewport */
+    min-height: 100vh;
+}
+.bg-light { /* Fundo da seção, pode ser mais específico para o login */
+    background-color: var(--color-login-background) !important;
+}
+
+/* Coluna da esquerda (formulário) */
+.col-sm-6.text-black { /* Ajusta a cor do texto na coluna da esquerda */
+    color: var(--color-login-text-dark) !important;
+}
+
+/* Card do formulário */
+.card {
+    background-color: var(--color-login-form-bg);
+    border: 1px solid var(--color-login-border);
+    border-radius: var(--bs-border-radius);
+    box-shadow: var(--bs-box-shadow-sm);
+}
+
+/* Título "Log in" */
+.card-title {
+    color: var(--color-login-text-dark) !important; /* Cor mais escura para o título "Log in" */
+}
+
+/* Campos de Input (Email, Password) */
+.form-floating .form-control {
+    border-color: var(--color-login-border);
+}
+
+/* Botão de Login */
+.btn-primary { /* Sobrescreve o btn-primary padrão do Bootstrap */
+    background-color: var(--color-login-primary-button) !important;
+    border-color: var(--color-login-primary-button) !important;
+    color: var(--bs-white) !important;
+}
+.btn-primary:hover {
+    background-color: darken(var(--color-login-primary-button), 10%) !important; /* Exige Sass/Less ou cor fixa */
+    border-color: darken(var(--color-login-primary-button), 10%) !important;
+}
+
+/* Links (Forgot password, Register here) */
+.text-primary { /* Links para usar a cor do tema */
+    color: var(--color-login-link) !important;
+}
+.text-primary:hover {
+    text-decoration: underline !important;
+}
+
+/* Imagem lateral */
+.col-sm-6.px-0.d-none.d-sm-block img {
+    /* Estas regras já estão no seu HTML inline, mas é bom ter aqui ou na folha de estilos */
+    /* width: 100%; vh-100; object-fit: cover; object-position: left; */
+}

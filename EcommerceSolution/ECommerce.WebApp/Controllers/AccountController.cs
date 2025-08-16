@@ -1,60 +1,177 @@
 // ECommerce.WebApp/Controllers/AccountController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization; // Para [Authorize]
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity; // Para SignInManager, UserManager (se usar para autenticação direta)
-using System.Security.Claims; // Para ClaimsPrincipal
-using ECommerce.Models.DTOs.User; // Para DTOs (LoginRequest, RegisterRequest, LoginResult)
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using ECommerce.Models.DTOs.User;
+using ECommerce.WebApp.Models;
 using Newtonsoft.Json;
 
 namespace ECommerce.WebApp.Controllers
 {
-    // [Route("[controller]")] // Remover esta rota de nível de controller para evitar conflitos na action padrão
     public class AccountController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<AccountController> _logger; // <-- ADICIONE ESTA LINHA
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             IHttpClientFactory httpClientFactory,
             IConfiguration configuration,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<AccountController> logger) // <-- ADICIONE ESTE PARÂMETRO AO CONSTRUTOR
+            ILogger<AccountController> logger)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
             _signInManager = signInManager;
             _userManager = userManager;
-            _logger = logger; // <-- ATRIBUA AQUI
+            _logger = logger;
         }
 
-        // Action para exibir a página de login customizada (que é uma View MVC)
-        [HttpGet] // Mapeia para /Account/Login (pela rota padrão) ou /Login (se mapear explicitamente)
-        public IActionResult Login(string? returnUrl = null) // Nome da action Login, servirá Login.cshtml
-        {
-            ViewData["ReturnUrl"] = returnUrl; // Passa o returnUrl para a View
-            return View(); // Retorna a View: Views/Account/Login.cshtml
-        }
-
-        // Action para exibir a página de registro customizada (que é uma View MVC ou modal)
+        // Action para exibir a página de login customizada
         [HttpGet]
-        public IActionResult Register(string? returnUrl = null) // Nome da action Register, servirá Register.cshtml
+        public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View(); // Retorna a View: Views/Account/Register.cshtml (se você tiver uma)
+            return View();
         }
 
+        // Action GET para exibir a página de registro
+        [HttpGet]
+        public async Task<IActionResult> Register(string? returnUrl = null)
+        {
+            var model = new RegisterViewModel
+            {
+                ReturnUrl = returnUrl ?? Url.Content("~/"),
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+            
+            return View(model);
+        }
 
-        // Action para processar o REGISTRO (chamada via AJAX do modal)
+        // Action POST para processar o registro (formulário padrão)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
+        {
+            returnUrl ??= Url.Content("~/");
+            model.ReturnUrl = returnUrl;
+            model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (ModelState.IsValid)
+            {
+                var client = _httpClientFactory.CreateClient("ECommerceApi");
+                try
+                {
+                    var apiRegisterRequest = new RegisterRequest
+                    {
+                        Email = model.Email,
+                        Password = model.Password,
+                        ConfirmPassword = model.ConfirmPassword
+                    };
+
+                    var apiResponse = await client.PostAsJsonAsync("api/Account/register", apiRegisterRequest);
+                    _logger.LogInformation($"API Response Status: {apiResponse.StatusCode}");
+
+                    if (apiResponse.IsSuccessStatusCode)
+                    {
+                        _logger.LogInformation("Usuário criou uma nova conta com sucesso via API.");
+
+                        // Login automático após registro
+                        var loginResponse = await client.PostAsJsonAsync("api/Account/login",
+                            new LoginRequest { email = model.Email, password = model.Password });
+
+                        if (loginResponse.IsSuccessStatusCode)
+                        {
+                            var loginResult = JsonConvert.DeserializeObject<LoginResult>(
+                                await loginResponse.Content.ReadAsStringAsync());
+
+                            if (loginResult != null && loginResult.Success && !string.IsNullOrEmpty(loginResult.Token))
+                            {
+                                // Autenticar usando cookies
+                                var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                                var jwtToken = tokenHandler.ReadJwtToken(loginResult.Token);
+
+                                var claimsIdentity = new ClaimsIdentity(jwtToken.Claims,
+                                    CookieAuthenticationDefaults.AuthenticationScheme);
+                                claimsIdentity.AddClaim(new Claim("access_token", loginResult.Token));
+
+                                var authProperties = new AuthenticationProperties
+                                {
+                                    IsPersistent = true,
+                                    ExpiresUtc = jwtToken.ValidTo
+                                };
+
+                                await HttpContext.SignInAsync(
+                                    CookieAuthenticationDefaults.AuthenticationScheme,
+                                    new ClaimsPrincipal(claimsIdentity),
+                                    authProperties);
+
+                                // Salvar informações na sessão
+                                HttpContext.Session.SetString("UserId", loginResult.Id);
+                                HttpContext.Session.SetString("JwtToken", loginResult.Token);
+                                
+                                _logger.LogInformation($"Login automático bem-sucedido após registro para usuário: {model.Email}");
+                                
+                                return RedirectToAction("Index", "UserProfile");
+                            }
+                        }
+
+                        // Se login automático falhar, redirecionar para login
+                        _logger.LogWarning($"Registro bem-sucedido, mas falha no login automático para usuário: {model.Email}");
+                        TempData["SuccessMessage"] = "Conta criada com sucesso! Faça login para continuar.";
+                        return RedirectToAction("Login", new { ReturnUrl = returnUrl });
+                    }
+                    else
+                    {
+                        var errorContent = await apiResponse.Content.ReadAsStringAsync();
+                        try
+                        {
+                            var identityErrors = JsonConvert.DeserializeObject<IdentityError[]>(errorContent);
+                            if (identityErrors != null && identityErrors.Any())
+                            {
+                                foreach (var error in identityErrors)
+                                {
+                                    ModelState.AddModelError(string.Empty, error.Description);
+                                }
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, "Erro desconhecido no registro.");
+                            }
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError(string.Empty, 
+                                $"Erro ao registrar: {apiResponse.StatusCode} - {errorContent}");
+                        }
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    _logger.LogError(ex, "Erro de rede ao registrar.");
+                    ModelState.AddModelError(string.Empty, "Erro de conexão ao registrar. Por favor, tente novamente.");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Erro inesperado durante o registro.");
+                    ModelState.AddModelError(string.Empty, "Erro inesperado durante o registro. Por favor, tente novamente.");
+                }
+            }
+
+            return View(model);
+        }
+
+        // Action para processar o REGISTRO via AJAX (mantido para compatibilidade com modal)
+        [HttpPost("Account/RegisterAjax")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterAjax([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -63,7 +180,7 @@ namespace ECommerce.WebApp.Controllers
             try
             {
                 var apiResponse = await client.PostAsJsonAsync("api/Account/register", request);
-                Console.WriteLine($"API Response Status: {apiResponse.StatusCode}"); // Log para depuração
+                _logger.LogInformation($"API Response Status: {apiResponse.StatusCode}");
 
                 if (apiResponse.IsSuccessStatusCode)
                 {
@@ -82,7 +199,8 @@ namespace ECommerce.WebApp.Controllers
                         }
                     }
                     catch { /* Fallback to general error */ }
-                    return StatusCode((int)apiResponse.StatusCode, new { success = false, message = errorContent ?? "Erro desconhecido da API de registro." });
+                    return StatusCode((int)apiResponse.StatusCode, 
+                        new { success = false, message = errorContent ?? "Erro desconhecido da API de registro." });
                 }
             }
             catch (HttpRequestException ex)
@@ -91,33 +209,32 @@ namespace ECommerce.WebApp.Controllers
             }
         }
 
-
-        // Action para processar o LOGIN (chamada via formulário POST desta View: Views/Account/Login.cshtml)
+        // Action para processar o LOGIN
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginRequest request, string? returnUrl = null) // Remover [FromBody] se o formulário for padrão
+        public async Task<IActionResult> Login(LoginRequest request, string? returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
             if (!ModelState.IsValid)
             {
-                return View(request); // Retorna a View com os dados preenchidos para mostrar erros
+                return View(request);
             }
 
             var client = _httpClientFactory.CreateClient("ECommerceApi");
 
             try
             {
-                // Serializar o request para JSON e logar para depuração
                 var requestJson = JsonConvert.SerializeObject(request);
-                Console.WriteLine($"API Request Payload: {requestJson}"); // <-- ADICIONE ESTA LINHA
+                _logger.LogInformation($"API Request Payload: {requestJson}");
                 
                 var apiResponse = await client.PostAsJsonAsync("api/Account/login", request);
-                Console.WriteLine($"API Login Response Status: {apiResponse.StatusCode}"); // Log para depuração
+                _logger.LogInformation($"API Login Response Status: {apiResponse.StatusCode}");
 
                 if (apiResponse.IsSuccessStatusCode)
                 {
-                    var loginResult = JsonConvert.DeserializeObject<LoginResult>(await apiResponse.Content.ReadAsStringAsync());
+                    var loginResult = JsonConvert.DeserializeObject<LoginResult>(
+                        await apiResponse.Content.ReadAsStringAsync());
 
                     if (loginResult != null && loginResult.Success && !string.IsNullOrEmpty(loginResult.Token))
                     {
@@ -125,26 +242,32 @@ namespace ECommerce.WebApp.Controllers
                         var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
                         var jwtToken = tokenHandler.ReadJwtToken(loginResult.Token);
 
-                        var claimsIdentity = new ClaimsIdentity(jwtToken.Claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var claimsIdentity = new ClaimsIdentity(jwtToken.Claims, 
+                            CookieAuthenticationDefaults.AuthenticationScheme);
+                        claimsIdentity.AddClaim(new Claim("access_token", loginResult.Token));
+                        
                         var authProperties = new AuthenticationProperties
                         {
-                            IsPersistent = true, // Permite "Lembrar-me"
-                            ExpiresUtc = jwtToken.ValidTo // Define o vencimento do cookie com base no JWT
+                            IsPersistent = true,
+                            ExpiresUtc = jwtToken.ValidTo
                         };
+                        
                         await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),
+                            CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(claimsIdentity),
                             authProperties);
-                        //TempData["JwtTokenForRedirect"] = loginResult.Token; // Salva o token em TempData
+
                         HttpContext.Session.SetString("UserId", loginResult.Id);
                         HttpContext.Session.SetString("JwtToken", loginResult.Token);
+                        
                         _logger.LogInformation($"Login bem-sucedido. JWT salvo na sessão. Usuário: {request.email}");
+                        
                         return RedirectToAction("Index", "UserProfile");
                     }
                     else
                     {
-                        // Login falhou na API, mas o status foi 200 OK (ex: senha errada - API deve retornar 400/401)
                         ModelState.AddModelError(string.Empty, loginResult?.Message ?? "Credenciais inválidas.");
-                        return View(request); // Retorna a View com o erro
+                        return View(request);
                     }
                 }
                 else if (apiResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -168,12 +291,13 @@ namespace ECommerce.WebApp.Controllers
         
         // Action para Logout
         [HttpPost]
-        [Authorize] // Exige autenticação para fazer logout
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.Session.Remove("JwtToken"); // Remove o token da sessão
+            HttpContext.Session.Remove("JwtToken");
+            HttpContext.Session.Remove("UserId");
             return RedirectToAction("Index", "Home");
         }
     }

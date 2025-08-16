@@ -1,12 +1,8 @@
 using Ecommerce.Models.DTOs.Payment;
-using MercadoPago.NetCore.Model.Resources.Enum;
 
 namespace ECommerce.Application.Services;
 using ECommerce.Application.Interfaces;
 using ECommerce.Infrastructure.Data;
-using MercadoPago.Client.Preference;
-using MercadoPago.Config;
-using MercadoPago.Resource.Preference;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.Linq;
@@ -27,7 +23,7 @@ public class MercadoPagoPaymentService : IPaymentService
         _configuration = configuration;
         _httpClient = httpClient; // <--- ATRIBUIR AQUI
         
-        MercadoPagoConfig.AccessToken = _configuration["MercadoPagoSettings:AccessToken"]!;
+        //MercadoPagoConfig.AccessToken = _configuration["MercadoPagoSettings:AccessToken"]!;
 
         // Definir BaseAddress para chamadas de Payment API se for diferente
         // API de Pagamentos do Mercado Pago: https://api.mercadopago.com/v1/payments/{id}
@@ -51,7 +47,7 @@ public class MercadoPagoPaymentService : IPaymentService
         if (order == null) return new CheckoutResponse { Success = false, Message = "Pedido não encontrado." };
         if (order.Status != "Pending") return new CheckoutResponse { Success = false, Message = "Pedido já pago ou em outro status." };
         if (order.TotalAmount != request.TotalAmount) return new CheckoutResponse { Success = false, Message = "Inconsistência de valor no pedido." };
-
+        /*
         var preferenceRequest = new MercadoPago.Client.Preference.PreferenceRequest
         {
             Items = order.OrderItems.Select(oi => new PreferenceItemRequest
@@ -76,7 +72,7 @@ public class MercadoPagoPaymentService : IPaymentService
 
         var client = new PreferenceClient();
         Preference preference = await client.CreateAsync(preferenceRequest);
-
+        
         if (preference != null && !string.IsNullOrEmpty(preference.InitPoint))
         {
             return new CheckoutResponse { Success = true, CheckoutUrl = preference.InitPoint, PaymentId = preference.Id, Message = "Preferência de pagamento criada." };
@@ -85,6 +81,8 @@ public class MercadoPagoPaymentService : IPaymentService
         {
             return new CheckoutResponse { Success = false, Message = "Falha ao criar preferência de pagamento no Mercado Pago." };
         }
+        */
+        return null;
     }
 
     // ***** IMPLEMENTAÇÃO DE ProcessPaymentNotificationAsync COM HTTPCLIENT MANUAL *****
@@ -96,7 +94,7 @@ public class MercadoPagoPaymentService : IPaymentService
         if (topic == "payment")
         {
             // Adicionar cabeçalho de autorização para a chamada da API de Pagamentos
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", MercadoPagoConfig.AccessToken);
+            //_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", MercadoPagoConfig.AccessToken);
 
             // Endpoint da API de Pagamentos: https://api.mercadopago.com/v1/payments/{id}
             var requestUrl = $"v1/payments/{id}";

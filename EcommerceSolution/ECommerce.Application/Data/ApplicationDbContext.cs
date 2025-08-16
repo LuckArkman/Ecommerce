@@ -39,7 +39,9 @@ namespace ECommerce.Infrastructure.Data
                     Stock = 10,
                     ImageUrl = "/images/product_images/laptop.jpg",
                     CategoryId = 1,
-                    CreatedAt = DateTime.UtcNow.AddMonths(-5)
+                    CreatedAt = DateTime.UtcNow.AddMonths(-5),
+                    IsFreeShipping = false,
+                    FreeShippingRegionsJson = ""
                 },
                 new Product
                 {
@@ -50,7 +52,9 @@ namespace ECommerce.Infrastructure.Data
                     Stock = 2,
                     ImageUrl = "/images/product_images/smartphone.jpg",
                     CategoryId = 1,
-                    CreatedAt = DateTime.UtcNow.AddMonths(-3)
+                    CreatedAt = DateTime.UtcNow.AddMonths(-3),
+                    IsFreeShipping = false,
+                    FreeShippingRegionsJson = ""
                 },
                 new Product
                 {
@@ -61,7 +65,9 @@ namespace ECommerce.Infrastructure.Data
                     Stock = 1,
                     ImageUrl = "/images/product_images/sofa.jpg",
                     CategoryId = 3,
-                    CreatedAt = DateTime.UtcNow.AddMonths(-2)
+                    CreatedAt = DateTime.UtcNow.AddMonths(-2),
+                    IsFreeShipping = false,
+                    FreeShippingRegionsJson = ""
                 },
                 new Product
                 {
@@ -72,7 +78,9 @@ namespace ECommerce.Infrastructure.Data
                     Stock = 0,
                     ImageUrl = "/images/product_images/table.jpg",
                     CategoryId = 3,
-                    CreatedAt = DateTime.UtcNow.AddMonths(-1)
+                    CreatedAt = DateTime.UtcNow.AddMonths(-1),
+                    IsFreeShipping = false,
+                    FreeShippingRegionsJson = ""
                 },
                 new Product
                 {
@@ -83,7 +91,9 @@ namespace ECommerce.Infrastructure.Data
                     Stock = 100,
                     ImageUrl = "/images/product_images/book.jpg",
                     CategoryId = 2,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    IsFreeShipping = false,
+                    FreeShippingRegionsJson = ""
                 }
             );
 

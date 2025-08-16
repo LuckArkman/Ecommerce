@@ -253,8 +253,6 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ECommerce.API.runtimeconfig.json
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ECommerce.API.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ECommerce.API.pdb
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/AutoMapper.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ClosedXML.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/DnsClient.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/DocumentFormat.OpenXml.dll
@@ -262,7 +260,6 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ExcelDataReader.DataSet.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ExcelNumberFormat.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Humanizer.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/IdentityModel.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Irony.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/MercadoPago.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
@@ -294,11 +291,6 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Microsoft.OpenApi.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Microsoft.Win32.SystemEvents.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/MercadoPago.NetCore.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/MercadoPago.NetCore.Abstracts.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/MercadoPago.NetCore.Model.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Newtonsoft.FluentAPI.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/MongoDB.Bson.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/MongoDB.Driver.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Mono.TextTemplating.dll
@@ -306,9 +298,7 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Npgsql.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Pipelines.Sockets.Unofficial.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/prmToolkit.NotificationPattern.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/QuestPDF.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/RestSharp.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/RPAX.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/RPAX_Excel_ClosedXML.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/Serilog.dll
@@ -328,15 +318,10 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Composition.Hosting.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Composition.Runtime.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Composition.TypedParts.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Drawing.Common.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.IO.Packaging.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Security.Cryptography.Pkcs.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Security.Cryptography.Xml.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Security.Permissions.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/System.Windows.Extensions.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/XLParser.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ZstdSharp.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.resources.dll
@@ -391,8 +376,6 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/en-US/prmToolkit.NotificationPattern.resources.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/linux-arm64/native/libQuestPdfSkia.so
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/linux-arm64/native/libcrypto.so
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/linux-arm64/native/libjpeg.so.8
@@ -423,11 +406,7 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win-x86/native/libstdc++-6.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win-x86/native/libwinpthread-1.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win-x86/native/qpdf.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
-/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ECommerce.Application.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ECommerce.Domain.dll
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ECommerce.Infrastructure.dll
@@ -455,3 +434,5 @@
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/obj/Debug/net8.0/ECommerce.API.pdb
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/obj/Debug/net8.0/ECommerce.API.genruntimeconfig.cache
 /home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/obj/Debug/net8.0/ref/ECommerce.API.dll
+/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/nunit.framework.dll
+/home/mplopes/Documentos/GitHub/Ecommerce/Ecommerce/EcommerceSolution/ECommerce.API/bin/Debug/net8.0/ObjectDumper.dll
