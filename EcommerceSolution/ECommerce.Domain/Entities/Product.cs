@@ -12,5 +12,7 @@ namespace ECommerce.Domain.Entities
         public Category? Category { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsFreeShipping { get; set; }
+        public string? FreeShippingRegionsJson { get; set; }
     }
 }

@@ -52,6 +52,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Hosting": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -69,10 +73,6 @@
             "Microsoft.Extensions.Caching.StackExchangeRedis": {
               "target": "Package",
               "version": "[8.0.0, )"
-            },
-            "Moises.Toolkit.MercadoPago.NetCore": {
-              "target": "Package",
-              "version": "[2.0.0-preview0011, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
@@ -93,10 +93,6 @@
             "RPAX_Excel_ClosedXML": {
               "target": "Package",
               "version": "[1.0.0-alpha2, )"
-            },
-            "mercadopago-sdk": {
-              "target": "Package",
-              "version": "[2.8.0, )"
             }
           },
           "imports": [
@@ -289,10 +285,6 @@
               "target": "Package",
               "version": "[10.0.0-preview.6.25358.103, )"
             },
-            "WebPx.AdminLTE.AspNetCore": {
-              "target": "Package",
-              "version": "[3.0.0, )"
-            },
             "bootstrap": {
               "target": "Package",
               "version": "[5.3.7, )"
@@ -368,10 +360,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "MercadoPago": {
-              "target": "Package",
-              "version": "[1.0.4477.31589, )"
-            },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
               "version": "[2.3.1, )"
@@ -382,7 +370,7 @@
             },
             "mercadopago-sdk": {
               "target": "Package",
-              "version": "[2.8.0, )"
+              "version": "[1.0.4477.31589, )"
             }
           },
           "imports": [

@@ -493,6 +493,32 @@
                 container.append(cardHtml);
             });
         }
+        $('#check-free-shipping-btn').on('click', async function() {
+            const productId = @(Model.Product?.Id ?? 0);
+            const zipCode = $('#zipcode-shipping-check').val();
+            const messageDiv = $('#free-shipping-message');
 
+            if (!productId || !zipCode || zipCode.length < 8) {
+                messageDiv.text("Digite um CEP válido.").removeClass('text-success text-danger').addClass('text-warning');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/products/CheckShipping?productId=${productId}&zipCode=${zipCode}`);
+                if (response.ok) {
+                    const isFree = await response.json();
+                    if (isFree) {
+                        messageDiv.text('Boas notícias! Frete Grátis para o seu CEP.').removeClass('text-warning text-danger').addClass('text-success');
+                    } else {
+                        messageDiv.text('Frete não é grátis para o seu CEP.').removeClass('text-warning text-success').addClass('text-danger');
+                    }
+                } else {
+                    messageDiv.text('Erro ao verificar frete. Tente novamente.').removeClass('text-success text-warning').addClass('text-danger');
+                }
+            } catch (error) {
+                console.error('Erro de rede ao verificar frete:', error);
+                messageDiv.text('Erro de rede.').removeClass('text-success text-warning').addClass('text-danger');
+            }
+        });
     </script>
 }

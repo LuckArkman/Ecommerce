@@ -1,14 +1,18 @@
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ECommerce.Domain.Entities;
 using ECommerce.Application.Interfaces;
 using ECommerce.Application.Services;
 using Microsoft.OpenApi.Models;
-using ECommerce.Client.Services;
 using ECommerce.Infrastructure.Backup;
 using ECommerce.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpClient();
 
 // Add services to the container.
 
@@ -26,12 +30,13 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("Mo
 builder.Services.AddSingleton<IMongoDbBackupService, MongoDbBackupService>(); // Singleton ou Scoped, dependendo do uso
 
 // 3. Configure Redis Cache
+/*
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration["RedisSettings:ConnectionString"];
     options.InstanceName = "ECommerceCache_"; // Prefixo para chaves no Redis
 });
-/*
+*/
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -49,29 +54,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
-*/
-builder.Services.AddHttpClient<DashboardApiClient>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-});
-builder.Services.AddHttpClient<OrderApiClient>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-});
-
-builder.Services.AddHttpClient<UserProfileApiClient>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowBlazorClient",
-        builder => builder.WithOrigins("https://localhost:7001", "http://localhost:5001")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials());
-});
 
 // Register Application Services
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -80,24 +62,17 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IFileUploadService, LocalFileUploadService>();
+builder.Services.AddScoped<IShippingService, ShippingService>();
+builder.Services.AddScoped<ITrackingService, EnviaTrackingService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // ***** ESTA É A LINHA CRÍTICA *****
-        // Define a política de nomeação para null, o que significa que o serializador
-        // usará os nomes das propriedades exatamente como estão no DTO (camelCase, neste caso).
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddScoped<ITrackingService, CorreiosTrackingService>();
-builder.Services.AddHttpClient("CorreiosApi", client =>
-{
-    // A BaseUrl já está definida no construtor do CorreiosTrackingService
-    // Ou defina aqui se preferir um cliente mais genérico
-    // client.DefaultRequestHeaders.Add("Accept", "application/json");
-});
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce API", Version = "v1" });
