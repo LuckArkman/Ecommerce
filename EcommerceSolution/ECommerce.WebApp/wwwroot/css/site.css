@@ -1,113 +1,193 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* General Body Styles */
 body {
-  margin-bottom: 60px;
+    font-family: Arial, sans-serif; /* Fallback font, adjust if you have a specific font */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #fff;
 }
 
-:root {
-    --bs-primary: #6a4f41; /* Marrom escuro da marca (pode ser usado para texto principal) */
-    --bs-secondary: #D2691E; /* Um verde/cinza terroso (pode ser ajustado se não combinar) */
-    --bs-light: #D2691E; /* Cor de fundo principal, ou um branco mais puro se quiser */
-    --bs-dark: #333; /* Texto padrão */
-    --bs-info: #52e7ff; /* Cor padrão do Bootstrap para info, pode ser ajustado para um azul mais suave */
-
-    /* ***** NOVAS CORES BASEADAS NA IMAGEM DE REFERÊNCIA ***** */
-    --color-login-background: #F8FFF2; /* Fundo geral da página de login */
-    --color-login-form-bg: #FFFFFF; /* Fundo do card do formulário */
-    --color-login-primary-button: #2196F3; /* Um azul mais vibrante para o botão, se não quiser o marrom */
-    --color-login-link: #03A9F4; /* Azul para links (Forgot password, Register here) */
-    --color-login-text-dark: #333; /* Cor do texto Log in, Email address */
-    --color-login-border: #EEEEEE; /* Borda dos campos de input */
-
-    --color-wood-light: #D4B28C; /* Tom de madeira clara da imagem */
-    --color-beige-creme: #F5F5DC; /* Tom bege/creme dos assentos */
-    --color-orange-copper: #D2691E; /* Tom laranja/cobre da moldura do espelho */
-    /* ******************************************************* */
-
-    --bs-success: #3cb371;
-    --bs-warning: #ffc107;
-    --bs-danger: #dc3545;
-
-    /* Cores de texto */
-    --bs-body-color: var(--bs-dark);
-    --bs-link-color: var(--bs-primary); /* Links gerais do site */
-
-    /* Fontes */
-    --bs-font-sans-serif: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    --bs-font-monospace: 'Playfair Display', serif;
+/* Header Sections */
+header {
+    width: 100%;
+    box-sizing: border-box; /* Include padding in element's total width and height */
 }
 
-/* Ajustes Específicos para a Página de Login (Login.cshtml) */
-
-/* Seção principal do Login */
-.vh-100 { /* Garante que a seção ocupe a altura total da viewport */
-    min-height: 100vh;
-}
-.bg-light { /* Fundo da seção, pode ser mais específico para o login */
-    background-color: var(--color-login-background) !important;
-}
-
-/* Coluna da esquerda (formulário) */
-.col-sm-6.text-black { /* Ajusta a cor do texto na coluna da esquerda */
-    color: var(--color-login-text-dark) !important;
+/* Top Promotional Bar */
+.top-promo-bar {
+    background-color: #f8f6f2; /* Light beige from the image */
+    color: #333;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.9em;
 }
 
-/* Card do formulário */
-.card {
-    background-color: var(--color-login-form-bg);
-    border: 1px solid var(--color-login-border);
-    border-radius: var(--bs-border-radius);
-    box-shadow: var(--bs-box-shadow-sm);
+.top-promo-bar strong {
+    font-weight: bold;
 }
 
-/* Título "Log in" */
-.card-title {
-    color: var(--color-login-text-dark) !important; /* Cor mais escura para o título "Log in" */
+/* Main Header Container (Logo, Search, Icons) */
+.main-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; /* Adjust padding as needed */
+    border-bottom: 1px solid #eee; /* Subtle separator */
 }
 
-/* Campos de Input (Email, Password) */
-.form-floating .form-control {
-    border-color: var(--color-login-border);
+/* Logo */
+.logo {
+    font-family: 'Times New Roman', serif; /* Or a specific serif font if available */
+    font-size: 2em;
+    font-weight: normal; /* To counteract potential strong styling */
+    color: #333;
+    text-decoration: none;
+    letter-spacing: 0.1em; /* Slight letter spacing for "WESTWING" */
 }
 
-/* Botão de Login */
-.btn-primary { /* Sobrescreve o btn-primary padrão do Bootstrap */
-    background-color: var(--color-login-primary-button) !important;
-    border-color: var(--color-login-primary-button) !important;
-    color: var(--bs-white) !important;
-}
-.btn-primary:hover {
-    background-color: darken(var(--color-login-primary-button), 10%) !important; /* Exige Sass/Less ou cor fixa */
-    border-color: darken(var(--color-login-primary-button), 10%) !important;
+/* Search Bar */
+.search-bar {
+    position: relative;
+    flex-grow: 1; /* Allows it to take up available space */
+    max-width: 400px; /* Limit width */
+    margin: 0 50px; /* Space between logo and icons */
 }
 
-/* Links (Forgot password, Register here) */
-.text-primary { /* Links para usar a cor do tema */
-    color: var(--color-login-link) !important;
-}
-.text-primary:hover {
-    text-decoration: underline !important;
+.search-bar input {
+    width: 100%;
+    padding: 8px 30px 8px 10px; /* Right padding for icon */
+    border: none;
+    border-bottom: 1px solid #ccc; /* Underline effect */
+    font-size: 0.9em;
+    outline: none; /* Remove blue outline on focus */
 }
 
-/* Imagem lateral */
-.col-sm-6.px-0.d-none.d-sm-block img {
-    /* Estas regras já estão no seu HTML inline, mas é bom ter aqui ou na folha de estilos */
-    /* width: 100%; vh-100; object-fit: cover; object-position: left; */
+.search-bar input::placeholder {
+    color: #aaa;
+}
+
+.search-icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    cursor: pointer;
+}
+
+/* User Actions (Icons) */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Space between icons */
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column; /* For user icon and text */
+    align-items: center;
+    text-decoration: none;
+    color: #555;
+    font-size: 0.8em;
+    white-space: nowrap; /* Prevent "Cadastre-se" from wrapping */
+}
+
+.action-item i {
+    font-size: 1.2em; /* Icon size */
+    margin-bottom: 3px; /* Space between icon and text */
+}
+
+.action-item.profile i {
+    font-size: 1.3em; /* Slightly larger for the user icon */
+}
+
+/* Main Navigation Menu */
+.main-nav {
+    border-bottom: 1px solid #eee; /* Separator line below the nav */
+    padding: 10px 40px; /* Padding for the nav bar */
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between; /* Distribute items evenly */
+    align-items: center;
+    max-width: 1200px; /* Optional: limit max width of nav content */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-nav li {
+    padding: 0 10px; /* Horizontal padding for each menu item */
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #555;
+    padding: 8px 0; /* Vertical padding for click area */
+    display: block;
+    font-size: 0.95em;
+    white-space: nowrap;
+    transition: color 0.2s ease-in-out;
+}
+.carouselExampleSlidesOnly
+{
+    width: 100%;
+}
+
+.main-nav a:hover {
+    color: #000;
+}
+
+.main-nav li.active a {
+    color: #4CAF50; /* Example active color, adjust to exact green */
+    font-weight: bold; /* Make active item bolder */
+    border-bottom: 2px solid #4CAF50; /* Green underline for active item */
+}
+
+/* Basic main content padding */
+main {
+    padding: 20px 40px;
+}
+.promo-card {
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+}
+.promo-img {
+    position: relative;
+}
+.discount-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: #fff;
+    border-radius: 50%;
+    padding: 1rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.2;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-body {
+    text-align: center;
+}
+.card-body h5 {
+    font-weight: bold;
+}
+.btn-outline-dark {
+    border-radius: 0.25rem;
+    padding: 0.4rem 1.2rem;
+}
+.valid-date {
+    color: #009970;
+    font-weight: 500;
+    margin-top: 0.5rem;
 }
